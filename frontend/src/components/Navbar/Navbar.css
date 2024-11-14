@@ -1,0 +1,45 @@
+﻿.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2vw 0vw;
+}
+
+h2 {
+    font-size: 1.6vw;
+}
+
+.login-btn {
+    font-weight: 600;
+}
+
+.navigation-labels {
+    display: flex;
+}
+
+.header-item {
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.first-item {
+    text-align: left;
+}
+
+.last-item {
+    text-align: right;
+}
+
+.navigation-header {
+    color: #E2E8F0;
+    padding: 0 2vw;
+}
+
+.navigation-header:hover {
+    color: white;
+}
+
+.logo {
+    width: 5vw;
+    height: 5vw;
+}
