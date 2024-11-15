@@ -31,7 +31,7 @@ const Navbar = () => {
           </h2>
         </Link>
       </div>
-      <Link to={""} className="header-item last-item">
+      <Link to={"/auth"} className="header-item last-item">
         <button className="login-btn">
           Login
         </button>

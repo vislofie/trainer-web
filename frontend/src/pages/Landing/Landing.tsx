@@ -1,5 +1,5 @@
 import './Landing.css'
-import Navbar from '../Navbar/Navbar'
+import Navbar from '../../components/Navbar/Navbar'
 import promo2 from '../../assets/imgs/promo-2.jpg'
 import { useEffect } from 'react'
 
