@@ -1,7 +1,9 @@
 ﻿.input-filler {
-  padding: 5% 0%;
+  padding: 3% 0%;
   border-bottom: 3px solid white;
   display: flex;
+
+  margin-bottom: 3%;
 }
 
 .input-filler img {
