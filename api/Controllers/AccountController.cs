@@ -70,7 +70,7 @@ public class AccountController : ControllerBase
 
            if (dto == null)
            {
-                return BadRequest();
+                return BadRequest("Mda");
            }
            
            return Ok(dto);
@@ -112,11 +112,11 @@ public class AccountController : ControllerBase
             UserName = username
         };
 
-        var createdUser = await _userManager.CreateAsync(appUser);
+        var createdUser = await _userManager.CreateAsync(appUser, password);
 
         if (createdUser.Succeeded)
         {
-            var roleResult = await _userManager.AddToRoleAsync(appUser, "Admin");
+            var roleResult = await _userManager.AddToRoleAsync(appUser, role == UserRole.Admin ? "Admin" : "User");
             if (roleResult.Succeeded)
             {
                 return new AuthDto
