@@ -4,14 +4,14 @@ import promo2 from '../../assets/imgs/promo-2.jpg'
 import { useEffect } from 'react'
 
 function Landing() {
-
+  
   useEffect(() => {
     document.title = "Trainer Web";
   }, []);
 
   return (
     <>
-      <div className="root">
+      <div className="container">
         <Navbar/>
 
         <div className="promo-container">
@@ -96,7 +96,7 @@ function Landing() {
 
         
       </div>
-      <div className="footer">
+      <footer>
         <div className="left-links">
           <a href="">
             Privacy Policy
@@ -116,7 +116,7 @@ function Landing() {
             Github
           </a>
         </div>
-      </div>
+      </footer>
     </>
   )
 }

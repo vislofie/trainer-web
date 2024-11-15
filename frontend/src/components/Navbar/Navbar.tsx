@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 
 const Navbar = () => {
   return (
+    <>
     <div className="header">
       <Link to={""} className="header-item first-item">
         <img alt="logo" src={logo} className="logo"/>
@@ -36,6 +37,23 @@ const Navbar = () => {
         </button>
       </Link>
     </div>
+
+    <div className="header-mobile">
+      <Link to={""} className="mobile-header-item mobile-first-item">
+        <button className="header-menu-btn">
+          ---
+        </button>
+      </Link>
+      <Link to={""} className="mobile-header-item">
+        <img alt="logo" src={logo} className="mobile-logo"/>
+      </Link>
+      <Link to={""} className="mobile-header-item mobile-last-item">
+        <button className="header-login-btn">
+          Login
+        </button>
+      </Link>
+      </div>
+</>
   )
 }
 
