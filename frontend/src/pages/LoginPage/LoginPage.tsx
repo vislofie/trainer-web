@@ -1,10 +1,10 @@
 ﻿import Navbar from '../../components/Navbar/Navbar'
-import "./Authorization.css"
+import "./LoginPage.css"
 import LoginPanel from '../../components/LoginPanel/LoginPanel'
  
 type Props = {}
 
-const Authorization = (props: Props) => {
+const LoginPage = (props: Props) => {
   return (
     <>
     <div className="content-box">
@@ -18,4 +18,4 @@ const Authorization = (props: Props) => {
   )
 }
 
-export default Authorization
+export default LoginPage

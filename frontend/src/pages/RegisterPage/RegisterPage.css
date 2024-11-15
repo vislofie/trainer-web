@@ -1,0 +1,21 @@
+﻿.container {
+    padding: 0;
+    
+}
+
+.content-box {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+}
+
+.header {
+    padding: 1% 5%;
+}
+
+.login-body {
+    background-image: url('../../assets/imgs/login-bg.jpg');
+    flex-grow: 1;
+    background-position: center;
+    display: flex;
+}

@@ -1,6 +1,7 @@
 ﻿import { createBrowserRouter } from "react-router-dom";
 import Landing from "../pages/Landing/Landing";
-import Authorization from "../pages/Authorization/Authorization";
+import LoginPage from "../pages/LoginPage/LoginPage";
+import RegisterPage from "../pages/RegisterPage/RegisterPage";
 
 export const router = createBrowserRouter([
     {
@@ -13,7 +14,11 @@ export const router = createBrowserRouter([
         ]
     },
     {
-        path: "auth",
-        element: <Authorization />
+        path: "signin",
+        element: <LoginPage />    
+    },
+    {
+        path: "signup",
+        element: <RegisterPage />
     }
 ])
