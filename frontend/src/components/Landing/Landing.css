@@ -173,8 +173,8 @@
 
 footer {
   background: #090F1E;
-  display: flex;
-  align-items: center; 
+  width: 100%;
+  align-items: center;
 }
 
 footer h2 {
@@ -194,7 +194,6 @@ footer h2 {
   margin: 0% 5% 0 0;
   color: #CBD5E1;
   text-decoration: underline;
-  font-size: 1.3em;
 }
 
 .right-links {
@@ -259,6 +258,28 @@ footer h2 {
     font-size: 1.8em;
     margin-bottom: 10%;
   }
+
+  .right-links,
+  .left-links {
+    font-size: 1em;
+    display: flex;
+    flex-flow: column;
+    padding: 5% 3%;
+    width: 30%;
+  }
+
+  .right-links a,
+  .left-links a {
+    padding: 3% 0%;
+  }
+
+  footer h2 {
+    font-size: 1.2em
+  }
+
+  footer {
+    display: flex;
+  }
 }
 
 @media screen and (min-width: 960px) {
@@ -319,7 +340,30 @@ footer h2 {
   }
 
   .promo-btn {
-    font-size: 3.2em;
+    font-size: 2.8em;
     margin-bottom: 5%;
+  }
+
+  .right-links,
+  .left-links {
+    font-size: 1.4em;
+    display: inline;
+    flex-flow: row;
+    padding: 3% 0%;
+    width: 10%;
+  }
+
+  .right-links a,
+  .left-links a {
+    padding: 0;
+  }
+
+  footer h2 {
+    font-size: 1.8em;
+  }
+
+  footer {
+    display: flex;
+    flex-direction: row;
   }
 }

@@ -4,7 +4,6 @@ import promo2 from '../../assets/imgs/promo-2.jpg'
 import { useEffect } from 'react'
 
 function Landing() {
-  
   useEffect(() => {
     document.title = "Trainer Web";
   }, []);
