@@ -1,6 +1,5 @@
 ﻿.container {
     padding: 0;
-    
 }
 
 .content-box {
@@ -16,6 +15,7 @@
 .login-body {
     background-image: url('../../assets/imgs/login-bg.jpg');
     flex-grow: 1;
+    background-size: cover;
     background-position: center;
     display: flex;
 }
