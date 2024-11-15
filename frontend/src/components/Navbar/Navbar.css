@@ -5,15 +5,27 @@
 }
 
 h2 {
-    font-size: 2vw;
+    font-size: 1.5em;
 }
 
 .login-btn {
     font-weight: 600;
+    font-size: 1.8em;
 }
 
 .navigation-labels {
     display: flex;
+}
+
+.avatar-container img {
+    flex-grow: 1;
+}
+
+.below-avatar {
+    position: absolute;
+    width: auto;
+    margin-left: -0.7em;
+    z-index: 1;
 }
 
 .header-item {

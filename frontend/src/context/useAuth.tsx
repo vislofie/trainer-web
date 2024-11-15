@@ -59,7 +59,7 @@ export const UserProvider = ({ children } : Props) => {
             if (res) {
                 localStorage.setItem("token", res?.data.token);
                 const userObject = {
-                    email: res?.data.email
+                    email: email
                 }
 
                 localStorage.setItem("user", JSON.stringify(userObject));
@@ -72,6 +72,7 @@ export const UserProvider = ({ children } : Props) => {
     }
 
     const isLoggedIn = () => {
+        console.log(!!user);
         return !!user;
     }
 

@@ -1,8 +1,28 @@
 ﻿import "./Navbar.css"
 import logo from '../../assets/icons/dumbbell.svg'
+import avatar from "../../assets/icons/avatar.svg"
 import { Link } from "react-router-dom"
+import { useAuth } from "../../context/useAuth";
+import { useEffect, useState } from "react";
+import AvatarPanel from "../AvatarPanel/AvatarPanel";
+import { useOutsideClick } from "outsideclick-react";
 
 const Navbar = () => {
+  const { isLoggedIn, logout } = useAuth();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [avatarMenuVisible, setAvatarMenuVisible] = useState(false);
+
+  const ref = useOutsideClick((e) => setAvatarMenuVisible(false));
+
+  useEffect(() => {
+    setLoggedIn(isLoggedIn());
+  }, [])
+
+  const onHandleLogout = () => {
+    logout();
+    setLoggedIn(false);
+  }
+
   return (
     <>
     <div className="header">
@@ -31,11 +51,25 @@ const Navbar = () => {
           </h2>
         </Link>
       </div>
-      <Link to={"/signin"} className="header-item last-item">
-        <button className="login-btn">
-          Login
-        </button>
-      </Link>
+      {loggedIn ?
+      (
+        <>
+        <div className="avatar-container">
+          <a className="header-item last-item" onClick={() => setAvatarMenuVisible(true)} ref={ref}>
+            <img src={avatar}/>
+          </a> 
+          <div className="below-avatar">
+            {avatarMenuVisible && <AvatarPanel ref={ref} onLogout={onHandleLogout}/>}
+          </div>
+        </div>
+        </>
+     ) 
+       :
+       (<Link to={"/signin"} className="header-item last-item">
+       <button className="login-btn">
+         Login
+       </button>
+      </Link>)}
     </div>
 
     <div className="header-mobile">
@@ -47,11 +81,18 @@ const Navbar = () => {
       <Link to={"/"} className="mobile-header-item">
         <img alt="logo" src={logo} className="mobile-logo"/>
       </Link>
-      <Link to={"/signin"} className="mobile-header-item mobile-last-item">
-        <button className="header-login-btn">
-          Login
-        </button>
-      </Link>
+
+      {loggedIn ?
+      (<a className="mobile-header-item mobile-last-item" ref={ref}>
+        <img src={avatar}/>
+       </a>) 
+       :
+       (<Link to={"/signin"} className="mobile-header-item mobile-last-item">
+       <button className="header-login-btn">
+         Login
+       </button>
+      </Link>)
+    }
       </div>
 </>
   )

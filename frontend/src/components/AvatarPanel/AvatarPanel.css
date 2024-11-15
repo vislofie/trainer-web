@@ -1,0 +1,24 @@
+﻿.avatar-panel-container {
+    background-color: #1E293B;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.avatar-panel-container ul {
+    list-style-type: none;   
+    padding: 0;
+    margin-inline: 0%;
+}
+
+.avatar-panel-container li {
+    color: white;
+    padding: 0.6em;
+}
+
+.avatar-panel-container li:hover {
+    border-radius: 12px;
+    box-sizing: border-box;
+    padding: 0.2em;
+    background-color: #0F172A;
+    border: solid 0.45em #1E293B;
+}

@@ -13,8 +13,6 @@ export const loginApi = async (email: string, password: string) => {
         console.log(response.statusText);
         return response;
     } catch (error) {
-        console.log(api);
-        console.log(`${api}/${subDomain}/register`);
         if (axios.isAxiosError(error)) {
             console.log("error message: ", error.message);
         }
@@ -40,8 +38,6 @@ export const registerApi = async (email: string, username: string, password: str
         return response;
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            console.log(api);
-            console.log(`${api}/${subDomain}/register`);
             console.log("error message: ", error.message);
         }
         else {
