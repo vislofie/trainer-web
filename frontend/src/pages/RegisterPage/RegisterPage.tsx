@@ -1,4 +1,4 @@
-﻿import RegisterPanel from '../../components/Checkbox/RegisterPanel/RegisterPanel'
+﻿import RegisterPanel from '../../components/AuthPanels/RegisterPanel/RegisterPanel'
 import Navbar from '../../components/Navbar/Navbar'
 import "./RegisterPage.css"
  

@@ -1,9 +1,9 @@
-﻿import TextField from '../TextField/TextField';
-import './LoginPanel.css'
-import mailicon from "../../assets/icons/mail.svg"
-import passwordIcon from "../../assets/icons/lock.svg"
-import Checkbox from '../Checkbox/Checkbox';
+﻿import '../AuthPanel.css'
+import mailicon from "../../../assets/icons/mail.svg"
+import passwordIcon from "../../../assets/icons/lock.svg"
 import { Link } from 'react-router-dom';
+import Checkbox from '../../Checkbox/Checkbox';
+import TextField from '../../TextField/TextField';
 
 interface Props {
 

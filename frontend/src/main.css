@@ -19,7 +19,7 @@ html, body {
 }
 
 .container {
-  padding: 0 5vw 3vw 5vw;
+  margin: 0 5vw 3vw 5vw;
 }
 
 input {

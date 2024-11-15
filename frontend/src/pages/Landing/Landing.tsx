@@ -2,6 +2,7 @@ import './Landing.css'
 import Navbar from '../../components/Navbar/Navbar'
 import promo2 from '../../assets/imgs/promo-2.jpg'
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom';
 
 function Landing() {
   useEffect(() => {
@@ -10,9 +11,9 @@ function Landing() {
 
   return (
     <>
+      <Navbar/>
       <div className="container">
-        <Navbar/>
-
+        
         <div className="promo-container">
           <div className="filler">
             <h1>
@@ -21,9 +22,11 @@ function Landing() {
             <p className="subTitle">
               Confidential, personal and useful.
             </p>
-            <button>
-              Get started
-            </button>
+            <Link to="/signin">
+              <button>
+                Get started
+              </button>
+            </Link>
             <p className="asterisk-text">
               *Certified by <a href="https://vk.com/id187280105" target="_blank">Stanislav Zmeu</a>
             </p>
@@ -89,11 +92,12 @@ function Landing() {
           You gotta try it mate!
         </h1>
 
-        <button className="promo-btn">
-          Get started
-        </button>
+        <Link to="/signin">
+          <button className="promo-btn">
+            Get started
+          </button>
+        </Link>
 
-        
       </div>
       <footer>
         <div className="left-links">

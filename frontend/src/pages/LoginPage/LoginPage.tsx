@@ -1,6 +1,6 @@
-﻿import Navbar from '../../components/Navbar/Navbar'
+﻿import LoginPanel from '../../components/AuthPanels/LoginPanel/LoginPanel'
+import Navbar from '../../components/Navbar/Navbar'
 import "./LoginPage.css"
-import LoginPanel from '../../components/LoginPanel/LoginPanel'
  
 type Props = {}
 

@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <>
     <div className="header">
-      <Link to={""} className="header-item first-item">
+      <Link to={"/"} className="header-item first-item">
         <img alt="logo" src={logo} className="logo"/>
       </Link>
       <div className="navigation-labels header-item">
@@ -44,10 +44,10 @@ const Navbar = () => {
           ---
         </button>
       </Link>
-      <Link to={""} className="mobile-header-item">
+      <Link to={"/"} className="mobile-header-item">
         <img alt="logo" src={logo} className="mobile-logo"/>
       </Link>
-      <Link to={""} className="mobile-header-item mobile-last-item">
+      <Link to={"/signin"} className="mobile-header-item mobile-last-item">
         <button className="header-login-btn">
           Login
         </button>

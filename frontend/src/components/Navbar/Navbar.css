@@ -78,12 +78,12 @@ h2 {
     }
 
     .header-menu-btn {
-        padding: 5% 15%;
+        margin: 5% 15%;
         border-radius: 9px;
     }
 
     .header-login-btn {
-        padding: 5% 15%;
+        margin: 5% 15%;
         border-radius: 9px;
     }
 }
@@ -102,7 +102,7 @@ h2 {
     }
 
     .header-login-btn {
-        padding: 5% 15%;
+        margin: 5% 15%;
         border-radius: 12px;
     }
 }
