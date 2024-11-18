@@ -1,0 +1,17 @@
+﻿.card-title {
+    margin-top: 5%;
+    font-size: 1.8em;
+}
+
+.card-subtitle {
+    margin-top: -8%;
+    text-decoration: underline;
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+.undertext {
+    margin-top: 20%;
+    font-size: 1.2em;
+    color: #94A3B8;
+}

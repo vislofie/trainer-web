@@ -24,7 +24,7 @@ h2 {
 .below-avatar {
     position: absolute;
     width: auto;
-    margin-left: -0.7em;
+    margin-left: -1.2em;
     z-index: 1;
 }
 

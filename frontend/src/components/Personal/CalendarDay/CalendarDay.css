@@ -1,7 +1,10 @@
-﻿.day-container {
+﻿.main-container {
     border: 1px solid #E2E8F0;
     width: calc(75vw / 7);
     height: 15vh;
+}
+
+.day-container {
     display: flex;
     flex-direction: row;
 }
@@ -32,7 +35,7 @@
 }
 
 .day-container p {
-    margin-top: -12%;
+    margin-top: -21%;
     color: #E2E8F0;
 }
 
@@ -43,4 +46,23 @@
     margin-inline: auto;
     border-radius: 0.6em;
     padding: 0em 0.3em;
+}
+
+.training-name {
+    text-align: center;
+    background-color: #0F172A;
+    font-size: 1em;
+    border-radius: 0.6em;
+    padding: 0.6em;
+    margin-inline: 0.6em;
+    font-weight: 700;
+    transition: background-color 0.2s ease-out;
+}
+
+.training-name:hover {
+    background-color: #992266;
+}
+
+.training-name:active {
+    background-color: #AF3279;
 }

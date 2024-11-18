@@ -8,3 +8,16 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.card-item {
+    width: calc(100% / 4);
+    background: #1E293B;
+    border-radius: 0.9em;
+    padding: 0vh 1.2vw;
+}
+
+.cards {
+    padding-top: 1.8em;
+    display: flex;
+    gap: 2.8em;
+}
