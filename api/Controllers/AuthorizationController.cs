@@ -10,7 +10,7 @@ namespace api.Controllers;
 
 [Route("api/auth")]
 [ApiController]
-public class AccountController : ControllerBase
+public class AuthorizationController : ControllerBase
 {
     private enum UserRole
     {
@@ -21,7 +21,7 @@ public class AccountController : ControllerBase
     private readonly UserManager<AppUser> _userManager;
     private readonly ITokenService _tokenService;
     private readonly SignInManager<AppUser> _signInManager;
-    public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, SignInManager<AppUser> signInManager)
+    public AuthorizationController(UserManager<AppUser> userManager, ITokenService tokenService, SignInManager<AppUser> signInManager)
     {
         _userManager = userManager;
         _tokenService = tokenService;

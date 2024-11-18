@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using api.Data;
@@ -11,9 +12,11 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241118125231_UpdateExercise_MuscleGroup_Relationship")]
+    partial class UpdateExercise_MuscleGroup_Relationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,13 +68,13 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6d55d4db-eea0-4c60-a422-c11976c21d71",
+                            Id = "9126ae61-538b-42c0-97fd-0b5bc8390dd3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "12434a1d-e3b7-4ac3-ae02-37120b8e8245",
+                            Id = "b7c0cca5-7966-470b-8a45-a81125076853",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -315,73 +318,6 @@ namespace api.Migrations
                     b.ToTable("MuscleGroup");
                 });
 
-            modelBuilder.Entity("api.Models.Set", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("WorkoutId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
-
-                    b.HasIndex("WorkoutId");
-
-                    b.ToTable("Set");
-                });
-
-            modelBuilder.Entity("api.Models.SetItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ItemNumber")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Repetitions")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SetId")
-                        .HasColumnType("integer");
-
-                    b.Property<float>("Weight")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SetId");
-
-                    b.ToTable("SetItem");
-                });
-
-            modelBuilder.Entity("api.Models.Workout", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("WorkoutName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Workout");
-                });
-
             modelBuilder.Entity("ExerciseMuscleGroup", b =>
                 {
                     b.HasOne("api.Models.Exercise", null)
@@ -459,54 +395,9 @@ namespace api.Migrations
                     b.Navigation("ExerciseLevel");
                 });
 
-            modelBuilder.Entity("api.Models.Set", b =>
-                {
-                    b.HasOne("api.Models.Exercise", "Exercise")
-                        .WithMany("Sets")
-                        .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("api.Models.Workout", "Workout")
-                        .WithMany("Sets")
-                        .HasForeignKey("WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Exercise");
-
-                    b.Navigation("Workout");
-                });
-
-            modelBuilder.Entity("api.Models.SetItem", b =>
-                {
-                    b.HasOne("api.Models.Set", "Set")
-                        .WithMany("Items")
-                        .HasForeignKey("SetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Set");
-                });
-
-            modelBuilder.Entity("api.Models.Exercise", b =>
-                {
-                    b.Navigation("Sets");
-                });
-
             modelBuilder.Entity("api.Models.ExerciseLevel", b =>
                 {
                     b.Navigation("Exercises");
-                });
-
-            modelBuilder.Entity("api.Models.Set", b =>
-                {
-                    b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("api.Models.Workout", b =>
-                {
-                    b.Navigation("Sets");
                 });
 #pragma warning restore 612, 618
         }
