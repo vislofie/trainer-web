@@ -1,8 +1,4 @@
-﻿.container {
-    padding: 0;
-}
-
-.content-box {
+﻿.content-box {
     display: flex;
     flex-flow: column;
     height: 100vh;

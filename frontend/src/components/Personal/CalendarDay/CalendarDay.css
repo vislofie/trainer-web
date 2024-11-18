@@ -1,0 +1,46 @@
+﻿.day-container {
+    border: 1px solid #E2E8F0;
+    width: calc(75vw / 7);
+    height: 15vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.day-container .filler {
+    flex-grow: 0;
+    background-color: transparent;
+    width: 30%;
+}
+
+.edit-container {
+    text-align: right;
+    padding: 3% 5%;
+    width: 10%;
+}
+
+.day-container .date {
+    justify-content: center;
+    text-align: center;
+    width: 90%;
+}
+
+.day-container h4 {
+    justify-content: center;
+    text-align: center;
+    margin-top: 0.3em;
+    color: #94A3B8;
+}
+
+.day-container p {
+    margin-top: -12%;
+    color: #E2E8F0;
+}
+
+.day-container .today-day {
+    color: #E2E8F0;
+    background-color: red;
+    width: fit-content;
+    margin-inline: auto;
+    border-radius: 0.6em;
+    padding: 0em 0.3em;
+}

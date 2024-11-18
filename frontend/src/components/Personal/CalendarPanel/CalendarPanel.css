@@ -1,0 +1,10 @@
+﻿.calendar-container {
+    background: #1E293B;
+    border-radius: 0.9em;
+    padding: 3.6vh 2.4vw;
+}
+
+.days-container {
+    display: flex;
+    flex-wrap: wrap;
+}

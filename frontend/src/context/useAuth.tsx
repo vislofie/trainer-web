@@ -48,7 +48,7 @@ export const UserProvider = ({ children } : Props) => {
                 localStorage.setItem("user", JSON.stringify(userObject));
                 setToken(res?.data.token!);
                 setUser(userObject!);
-                navigate("/calendar");
+                navigate("/personal");
                 axios.defaults.headers.common["Authorization"] = "Bearer " + token;
             }
         });
@@ -65,7 +65,7 @@ export const UserProvider = ({ children } : Props) => {
                 localStorage.setItem("user", JSON.stringify(userObject));
                 setToken(res?.data.token!);
                 setUser(userObject!);
-                navigate("/calendar");
+                navigate("/personal");
                 axios.defaults.headers.common["Authorization"] = "Bearer " + token;
             }
         })
@@ -82,7 +82,7 @@ export const UserProvider = ({ children } : Props) => {
 
         setUser(null);
         setToken("");
-        navigate("/");
+        navigate("/signin");
     }
 
     return (

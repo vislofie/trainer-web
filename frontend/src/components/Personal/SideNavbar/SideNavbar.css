@@ -1,0 +1,43 @@
+﻿.sidebar {
+    background: linear-gradient(#1C2738, #243858);
+    display: inline-flex;
+    flex-direction: column;
+    padding: 0.6em;
+    border-radius: 1.2em;
+
+    position: absolute;
+    margin-top: auto;
+    margin-bottom: auto;
+    left: 3vw;
+    top: 35vh;
+    gap: 0.6em;
+}
+
+.inactive-icon  {
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    border-radius: 0.9em;
+    padding: 0.3em;
+    transition: background 0.3s ease-out;
+}
+
+.inactive-icon:hover {
+    background: #992266;
+}
+
+.inactive-icon:active {
+    background: #C51C7C;
+}
+
+.active-icon {
+    background: #992266;
+    width: 48px;
+    height: 48px;
+    border-radius: 0.9em;
+    padding: 0.3em;
+}
+
+.active-icon:hover {
+    background: #992266;
+}

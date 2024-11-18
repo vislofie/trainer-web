@@ -3,15 +3,18 @@ import Navbar from '../../components/Navbar/Navbar'
 import promo2 from '../../assets/imgs/promo-2.jpg'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/useAuth';
 
 function Landing() {
+  const { isLoggedIn } = useAuth();
+  
   useEffect(() => {
     document.title = "Trainer Web";
   }, []);
 
   return (
     <>
-      <Navbar/>
+      <Navbar showNavigationLabels={true}/>
       <div className="container">
         
         <div className="promo-container">
@@ -22,7 +25,7 @@ function Landing() {
             <p className="subTitle">
               Confidential, personal and useful.
             </p>
-            <Link to="/signin">
+            <Link to="/personal">
               <button>
                 Get started
               </button>
@@ -92,7 +95,7 @@ function Landing() {
           You gotta try it mate!
         </h1>
 
-        <Link to="/signin">
+        <Link to="/personal">
           <button className="promo-btn">
             Get started
           </button>
