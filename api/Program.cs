@@ -1,6 +1,8 @@
 using System.Text;
 using api.Data;
 using api.Models;
+using api.Repositories.Implementations;
+using api.Repositories.Interfaces;
 using api.Services.Implementations;
 using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -88,6 +90,8 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
+builder.Services.AddScoped<IMuscleGroupsRepository, MuscleGroupsRepository>();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 

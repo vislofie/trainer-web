@@ -10,6 +10,7 @@ public class Exercise
     public string Description { get; set; } = string.Empty;
     public string Picture { get; set; } = string.Empty;
     public string Video { get; set; } = string.Empty;
+    public bool IsApproved { get; set; } = false;
 
     // Foreign key for ExerciseLevel
     public int ExerciseLevelId { get; set; }

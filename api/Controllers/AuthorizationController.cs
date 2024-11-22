@@ -48,7 +48,7 @@ public class AuthorizationController : ControllerBase
 
             return Ok (new AuthDto
             {
-                Token = _tokenService.CreateToken(user)
+                Token = await _tokenService.CreateTokenAsync(user)
             });
         } 
         catch (Exception e) 
@@ -65,6 +65,7 @@ public class AuthorizationController : ControllerBase
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            
 
            AuthDto? dto = await CreateUserAsync(UserRole.User, registerDto.Email, registerDto.Username, registerDto.Password);
 
@@ -104,34 +105,44 @@ public class AuthorizationController : ControllerBase
         }
     }
 
-    private async Task<AuthDto?> CreateUserAsync(UserRole role, string email, string username, string password)
+    private async Task<AuthDto> CreateUserAsync(UserRole role, string email, string username, string password)
     {
+        var roleName = role == UserRole.Admin ? "Admin" : "User";
+
         var appUser = new AppUser
         {
             Email = email,
             UserName = username
         };
 
-        var createdUser = await _userManager.CreateAsync(appUser, password);
+        try
+        {
+            var createdUser = await _userManager.CreateAsync(appUser, password);
+            
+            if (!createdUser.Succeeded)
+            {
+                throw new Exception("Failed to create user: " + string.Join(", ", createdUser.Errors.Select(e => e.Description)));
+            }
 
-        if (createdUser.Succeeded)
-        {
-            var roleResult = await _userManager.AddToRoleAsync(appUser, role == UserRole.Admin ? "Admin" : "User");
-            if (roleResult.Succeeded)
+            var roleResult = await _userManager.AddToRoleAsync(appUser, roleName);
+            
+            if (!roleResult.Succeeded)
             {
-                return new AuthDto
-                {
-                    Token = _tokenService.CreateToken(appUser)
-                };
+                // If adding to role fails, delete the user
+                await _userManager.DeleteAsync(appUser);
+                throw new Exception("Failed to add user to role: " + string.Join(", ", roleResult.Errors.Select(e => e.Description)));
             }
-            else
+
+            return new AuthDto
             {
-                return null;
-            }
+                Token = await _tokenService.CreateTokenAsync(appUser)
+            };
         }
-        else
+        catch (Exception ex)
         {
-            return null;
+            // Log the exception
+            Console.WriteLine($"Error creating user: {ex.Message}");
+            throw;
         }
     }
 }
