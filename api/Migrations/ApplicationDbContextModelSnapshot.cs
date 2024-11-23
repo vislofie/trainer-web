@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using api.Data;
+using api.Context;
 
 #nullable disable
 
@@ -65,13 +65,13 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d057a850-d687-441d-8232-45219244570c",
+                            Id = "acbb90b5-110d-46f3-a84b-d14888da4a9e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "cf3e7363-4dbe-42f1-ba09-e05bf93e9f5d",
+                            Id = "fd62229d-558f-4409-a795-a16a2dd886bd",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -465,7 +465,7 @@ namespace api.Migrations
             modelBuilder.Entity("api.Models.Set", b =>
                 {
                     b.HasOne("api.Models.Exercise", "Exercise")
-                        .WithMany("Sets")
+                        .WithMany()
                         .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -490,11 +490,6 @@ namespace api.Migrations
                         .IsRequired();
 
                     b.Navigation("Set");
-                });
-
-            modelBuilder.Entity("api.Models.Exercise", b =>
-                {
-                    b.Navigation("Sets");
                 });
 
             modelBuilder.Entity("api.Models.ExerciseLevel", b =>

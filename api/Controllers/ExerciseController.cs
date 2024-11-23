@@ -17,17 +17,17 @@ public class ExerciseController : ControllerBase
         _exerciseRepository = exerciseRepository;
     }
 
-    [HttpGet("get")]
+    [HttpGet]
     [Authorize]
     public async Task<IActionResult> GetExercises()
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        return Ok(await _exerciseRepository.GetAllAsync());
+        return Ok((await _exerciseRepository.GetAllAsync()).Select(ex => ex.ToExerciseDto()));
     }
 
-    [HttpPost("add")]
+    [HttpPost]
     [Authorize]
     public async Task<IActionResult> AddExercise([FromBody] CreateExerciseRequestDto createDto)
     {
@@ -35,10 +35,10 @@ public class ExerciseController : ControllerBase
             return BadRequest(ModelState);
         
         var exerciseModel = await _exerciseRepository.CreateAsync(createDto);
-        return Ok(exerciseModel);
+        return Ok(exerciseModel.ToExerciseDto());
     }
 
-    [HttpGet("levels/get")]
+    [HttpGet("levels")]
     [Authorize]
     public async Task<IActionResult> GetExerciseLevels()
     {
@@ -49,7 +49,7 @@ public class ExerciseController : ControllerBase
         return Ok(exerciseLevels.Select(el => el.ToExerciseLevelDto()));
     }
 
-    [HttpPost("levels/add")]
+    [HttpPost("levels")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> AddExerciseLevel([FromBody] CreateExerciseLevelRequestDto createDto)
     {

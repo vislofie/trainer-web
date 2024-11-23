@@ -16,4 +16,19 @@ public static class ExerciseMappers
             IsApproved = false
         };
     }
+
+    public static ExerciseDto ToExerciseDto(this Exercise exercise) 
+    {
+        return new ExerciseDto
+        {
+            Id = exercise.Id,
+            Title = exercise.Title,
+            Description = exercise.Description,
+            Picture = exercise.Picture,
+            Video = exercise.Video,
+            IsApproved = exercise.IsApproved,
+            ExerciseLevel = exercise.ExerciseLevel.ToExerciseLevelDto(),
+            MuscleGroups = exercise.MuscleGroups.Select(mg => mg.ToMuscleGroupDTO()).ToArray()
+        };
+    }
 }

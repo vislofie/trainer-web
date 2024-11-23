@@ -20,7 +20,7 @@ public class MuscleGroupController : ControllerBase
         _muscleGroupsRepository = muscleGroupsRepository;
     }
 
-    [HttpGet("get")]
+    [HttpGet]
     [Authorize]
     public async Task<IActionResult> GetMuscleGroups()
     {
@@ -32,7 +32,7 @@ public class MuscleGroupController : ControllerBase
         return Ok(muscleGroups.Select(mg => mg.ToMuscleGroupDTO()));
     }
 
-    [HttpPost("add")]
+    [HttpPost]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> AddMuscleGroup([FromBody] CreateMuscleGroupRequestDto createDto)
     {

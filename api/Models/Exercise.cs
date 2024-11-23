@@ -19,8 +19,4 @@ public class Exercise
 
     // Many-to-Many with muscle group
     public ICollection<MuscleGroup> MuscleGroups { get; set; } = new HashSet<MuscleGroup>();
-
-
-    // Many-to-one relationship with Set
-    public ICollection<Set> Sets { get; set; } = new HashSet<Set>();
 }

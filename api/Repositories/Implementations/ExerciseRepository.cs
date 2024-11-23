@@ -1,4 +1,4 @@
-using api.Data;
+using api.Context;
 using api.DTOs.Exercise;
 using api.DTOs.ExerciseLevel;
 using api.Mappers;
@@ -18,7 +18,10 @@ public class ExerciseRepository : IExerciseRepository
 
     public async Task<List<Exercise>> GetAllAsync()
     {
-        return await _context.Exercises.ToListAsync();
+        return await _context.Exercises
+            .Include(e => e.MuscleGroups)
+            .Include(e => e.ExerciseLevel)
+            .ToListAsync();
     }
 
     public async Task<Exercise> CreateAsync(CreateExerciseRequestDto dto)

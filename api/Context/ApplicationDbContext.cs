@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Data;
+namespace api.Context;
 
 public class ApplicationDbContext : IdentityDbContext<AppUser>
 {
@@ -44,12 +44,6 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
             // many-to-many with muscle group
             ex.HasMany(e => e.MuscleGroups)
               .WithMany(mg => mg.Exercises);
-
-            // many-to-one with set
-            ex.HasMany(e => e.Sets)
-              .WithOne(s => s.Exercise)
-              .HasForeignKey(s => s.ExerciseId)
-              .OnDelete(DeleteBehavior.Restrict);
         });
 
         builder.Entity<MuscleGroup>(mg => 
@@ -62,6 +56,12 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
         {
             set.HasKey(s => s.Id);
             set.Property(s => s.ExerciseId).IsRequired();
+
+            // one-to-many with exercise
+            set.HasOne(s => s.Exercise)
+              .WithMany() // Note: No navigation property specified here
+              .HasForeignKey(s => s.ExerciseId)
+              .OnDelete(DeleteBehavior.Restrict);
 
             set.HasMany(s => s.Items)
                .WithOne(si => si.Set)

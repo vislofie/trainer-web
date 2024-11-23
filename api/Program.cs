@@ -1,5 +1,5 @@
 using System.Text;
-using api.Data;
+using api.Context;
 using api.Models;
 using api.Repositories.Implementations;
 using api.Repositories.Interfaces;
@@ -77,11 +77,13 @@ builder.Services.AddAuthentication(options =>
     options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options => 
 {
+    options.SaveToken = true;
     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidateAudience = true,
+        ValidateLifetime = true,
         ValidAudience = builder.Configuration["JWT:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
@@ -92,6 +94,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IMuscleGroupsRepository, MuscleGroupsRepository>();
+builder.Services.AddScoped<IFileHandlerRepository, FileHandlerLocal>();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 

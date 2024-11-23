@@ -11,7 +11,7 @@ public class Set
 
     // foreign key for workout
     public int WorkoutId { get; set; }
-    // navigation proeprty
+    // navigation property
     public Workout Workout { get; set; }
 
     public ICollection<SetItem> Items { get; set; } = new HashSet<SetItem>();
