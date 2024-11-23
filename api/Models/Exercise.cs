@@ -8,8 +8,13 @@ public class Exercise
     public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public string Picture { get; set; } = string.Empty;
-    public string Video { get; set; } = string.Empty;
+
+    public int PictureId { get; set; }
+    public FileInfo Picture { get; set; }
+    
+    public int VideoId { get; set; }
+    public FileInfo Video { get; set; }
+
     public bool IsApproved { get; set; } = false;
 
     // Foreign key for ExerciseLevel

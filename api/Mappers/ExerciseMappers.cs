@@ -11,8 +11,6 @@ public static class ExerciseMappers
         {
             Title = createExerciseRequestDto.Title,
             Description = createExerciseRequestDto.Description,
-            Picture = createExerciseRequestDto.Picture,
-            Video = createExerciseRequestDto.Video,
             IsApproved = false
         };
     }
@@ -24,8 +22,8 @@ public static class ExerciseMappers
             Id = exercise.Id,
             Title = exercise.Title,
             Description = exercise.Description,
-            Picture = exercise.Picture,
-            Video = exercise.Video,
+            PictureId = exercise.PictureId,
+            VideoId = exercise.VideoId,
             IsApproved = exercise.IsApproved,
             ExerciseLevel = exercise.ExerciseLevel.ToExerciseLevelDto(),
             MuscleGroups = exercise.MuscleGroups.Select(mg => mg.ToMuscleGroupDTO()).ToArray()

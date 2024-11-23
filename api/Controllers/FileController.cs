@@ -15,7 +15,6 @@ public class FileController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> Get([FromQuery]string path) 
     {
         var fileStream = await _fileHandlerRepository.GetFileAsync(path);

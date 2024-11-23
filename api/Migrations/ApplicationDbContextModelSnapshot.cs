@@ -65,13 +65,13 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "acbb90b5-110d-46f3-a84b-d14888da4a9e",
+                            Id = "1cca98de-1196-4254-a93d-b0746f71cd0d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "fd62229d-558f-4409-a795-a16a2dd886bd",
+                            Id = "1f418cfa-41aa-4b1b-8f75-779cba57854e",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -265,21 +265,23 @@ namespace api.Migrations
                     b.Property<bool>("IsApproved")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Picture")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("PictureId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Video")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("VideoId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ExerciseLevelId");
+
+                    b.HasIndex("PictureId");
+
+                    b.HasIndex("VideoId");
 
                     b.ToTable("Exercise");
                 });
@@ -299,6 +301,30 @@ namespace api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ExerciseLevels");
+                });
+
+            modelBuilder.Entity("api.Models.FileInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileInfo");
                 });
 
             modelBuilder.Entity("api.Models.MuscleGroup", b =>
@@ -459,7 +485,23 @@ namespace api.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("api.Models.FileInfo", "Picture")
+                        .WithMany()
+                        .HasForeignKey("PictureId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.FileInfo", "Video")
+                        .WithMany()
+                        .HasForeignKey("VideoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("ExerciseLevel");
+
+                    b.Navigation("Picture");
+
+                    b.Navigation("Video");
                 });
 
             modelBuilder.Entity("api.Models.Set", b =>

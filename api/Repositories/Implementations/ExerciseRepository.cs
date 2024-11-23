@@ -11,9 +11,11 @@ namespace api.Repositories.Implementations;
 public class ExerciseRepository : IExerciseRepository
 {
     private readonly ApplicationDbContext _context;
-    public ExerciseRepository(ApplicationDbContext context)
+    private readonly IFileHandlerRepository _fileHandlerRepository;
+    public ExerciseRepository(ApplicationDbContext context, IFileHandlerRepository fileHandlerRepository)
     {
         _context = context;
+        _fileHandlerRepository = fileHandlerRepository;
     }
 
     public async Task<List<Exercise>> GetAllAsync()
@@ -27,23 +29,55 @@ public class ExerciseRepository : IExerciseRepository
     public async Task<Exercise> CreateAsync(CreateExerciseRequestDto dto)
     {
         var exercise = dto.ToExerciseFromCreateDTO();
-
-        foreach (var muscleGroupId in dto.MuscleGroupIDs)
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            var muscleGroup = await _context.MuscleGroup.FindAsync(muscleGroupId);
-            if (muscleGroup != null)
-                exercise.MuscleGroups.Add(muscleGroup);
+            try
+            {
+                var pictureFile = dto.Picture;
+                var videoFile = dto.Video;
+
+                var pictureStream = new MemoryStream();
+                await pictureFile.CopyToAsync(pictureStream);
+                await _fileHandlerRepository.UploadFileAsync($"exercises/{exercise.Id}/media/{pictureFile.FileName}", pictureStream);
+
+                var pictureInfo = new Models.FileInfo { Name = pictureFile.FileName, Size = pictureFile.Length, Type = "Picture" };
+                await _context.FileInfos.AddAsync(pictureInfo);
+
+                var videoStream = new MemoryStream();
+                await videoFile.CopyToAsync(videoStream);
+                await _fileHandlerRepository.UploadFileAsync($"exercises/{exercise.Id}/media/{videoFile.FileName}", videoStream);
+
+                var videoInfo = new Models.FileInfo { Name = videoFile.FileName, Size = videoFile.Length, Type = "Video" };
+                await _context.FileInfos.AddAsync(videoInfo);
+
+                exercise.Picture = pictureInfo;
+                exercise.Video = videoInfo;
+
+                if (dto.MuscleGroupIDs != null && dto.MuscleGroupIDs.Any())
+                {
+                    var muscleGroups = await _context.MuscleGroup
+                        .Where(mg => dto.MuscleGroupIDs.Contains(mg.Id))
+                        .ToListAsync();
+
+                    exercise.MuscleGroups = muscleGroups;
+                }
+
+                if (dto.ExerciseLevelID != null)
+                {
+                    var exerciseLevel = await _context.ExerciseLevels.FirstOrDefaultAsync(el => el.Id == dto.ExerciseLevelID);
+                    exercise.ExerciseLevel = exerciseLevel;
+                }
+
+                _context.Exercises.Add(exercise);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+            } catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
-
-        var exerciseLevel = await _context.ExerciseLevels.FindAsync(dto.ExerciseLevelID);
-        if (exerciseLevel != null)
-        {
-            exercise.ExerciseLevel = exerciseLevel;
-        }
-
-        _context.Exercises.Add(exercise);
-        await _context.SaveChangesAsync();
-
+    
         return exercise;
     }
 

@@ -27,6 +27,8 @@ public class FileHandlerLocal : IFileHandlerRepository
         if (File.Exists(path))
             return "";
 
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
+
         using (FileStream writeStream = File.OpenWrite(path))
         {
             await stream.CopyToAsync(writeStream);

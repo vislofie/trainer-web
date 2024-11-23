@@ -29,7 +29,7 @@ public class ExerciseController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> AddExercise([FromBody] CreateExerciseRequestDto createDto)
+    public async Task<IActionResult> AddExercise([FromForm] CreateExerciseRequestDto createDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

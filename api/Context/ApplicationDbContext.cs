@@ -17,10 +17,18 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<ExerciseLevel> ExerciseLevels { get; set; }
     public DbSet<MuscleGroup> MuscleGroup { get; set; }
     public DbSet<Workout> Workouts { get; set; }
+    public DbSet<Models.FileInfo> FileInfos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder.Entity<Models.FileInfo>(fi => {
+            fi.HasKey(f => f.Id);
+            fi.Property(f => f.Name).IsRequired();
+            fi.Property(f => f.Size).IsRequired();
+            fi.Property(f => f.Type).IsRequired();
+        });
 
         builder.Entity<ExerciseLevel>(el => 
         {
@@ -32,8 +40,6 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
             ex.HasKey(x => x.Id);
             ex.Property(x => x.Title).IsRequired();
             ex.Property(x => x.Description).IsRequired();
-            ex.Property(x => x.Video).IsRequired();
-            ex.Property(x => x.Picture).IsRequired();
 
             // one-to-many with exercise levels
             ex.HasOne(x => x.ExerciseLevel)
@@ -44,6 +50,16 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
             // many-to-many with muscle group
             ex.HasMany(e => e.MuscleGroups)
               .WithMany(mg => mg.Exercises);
+
+            ex.HasOne(e => e.Picture)
+              .WithMany()
+              .HasForeignKey(e => e.PictureId)
+              .OnDelete(DeleteBehavior.Restrict);
+
+            ex.HasOne(e => e.Video)
+              .WithMany()
+              .HasForeignKey(e => e.VideoId)
+              .OnDelete(DeleteBehavior.Restrict);
         });
 
         builder.Entity<MuscleGroup>(mg => 
