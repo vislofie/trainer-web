@@ -33,25 +33,7 @@ public class ExerciseRepository : IExerciseRepository
         {
             try
             {
-                var pictureFile = dto.Picture;
-                var videoFile = dto.Video;
-
-                var pictureStream = new MemoryStream();
-                await pictureFile.CopyToAsync(pictureStream);
-                await _fileHandlerRepository.UploadFileAsync($"exercises/{exercise.Id}/media/{pictureFile.FileName}", pictureStream);
-
-                var pictureInfo = new Models.FileInfo { Name = pictureFile.FileName, Size = pictureFile.Length, Type = "Picture" };
-                await _context.FileInfos.AddAsync(pictureInfo);
-
-                var videoStream = new MemoryStream();
-                await videoFile.CopyToAsync(videoStream);
-                await _fileHandlerRepository.UploadFileAsync($"exercises/{exercise.Id}/media/{videoFile.FileName}", videoStream);
-
-                var videoInfo = new Models.FileInfo { Name = videoFile.FileName, Size = videoFile.Length, Type = "Video" };
-                await _context.FileInfos.AddAsync(videoInfo);
-
-                exercise.Picture = pictureInfo;
-                exercise.Video = videoInfo;
+                exercise = await UploadMediaFiles(dto.Picture, dto.Video, exercise);
 
                 if (dto.MuscleGroupIDs != null && dto.MuscleGroupIDs.Any())
                 {
@@ -79,6 +61,42 @@ public class ExerciseRepository : IExerciseRepository
         }
     
         return exercise;
+    }
+
+    private async Task<Exercise> UploadMediaFiles(IFormFile picture, IFormFile video, Exercise exercise)
+    {
+        try
+        {
+            var pictureFile = picture;
+            var videoFile = video;
+
+            string pictureName = Guid.NewGuid().ToString() + Path.GetExtension(pictureFile.FileName);
+            string videoName = Guid.NewGuid().ToString() + Path.GetExtension(videoFile.FileName);
+            string picturePath = $"exercises/media/{exercise.Id}/{pictureName}";
+            string videoPath = $"exercises/media/{exercise.Id}/{videoName}";
+            
+            var pictureStream = new MemoryStream();
+            await pictureFile.CopyToAsync(pictureStream);
+            await _fileHandlerRepository.UploadFileAsync(picturePath, pictureStream);
+            
+            var pictureInfo = new Models.FileInfo { Name = pictureName, Size = pictureFile.Length, Type = "Picture", Path = videoPath };
+            await _context.FileInfos.AddAsync(pictureInfo);
+
+            var videoStream = new MemoryStream();
+            await videoFile.CopyToAsync(videoStream);
+            await _fileHandlerRepository.UploadFileAsync(videoPath, videoStream);
+
+            var videoInfo = new Models.FileInfo { Name = videoName, Size = videoFile.Length, Type = "Video", Path = videoPath };
+            await _context.FileInfos.AddAsync(videoInfo);
+
+            exercise.Picture = pictureInfo;
+            exercise.Video = videoInfo;
+
+            return exercise;
+        } catch
+        {
+            throw;
+        }
     }
 
     public async Task<List<ExerciseLevel>> GetAllExerciseLevelsAsync()

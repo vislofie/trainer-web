@@ -65,13 +65,13 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1cca98de-1196-4254-a93d-b0746f71cd0d",
+                            Id = "b5a15467-89d7-4f34-b80e-63956956e8d9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1f418cfa-41aa-4b1b-8f75-779cba57854e",
+                            Id = "0217ae5f-06c0-44b9-a532-88d2b918fbb2",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -312,6 +312,10 @@ namespace api.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Path")
                         .IsRequired()
                         .HasColumnType("text");
 
