@@ -1,4 +1,4 @@
-﻿import { getArrayOfDatesFrom, getDateIn, getDayOfWeek, getDayOfWeekByID } from '../../../helpers/DateHelper';
+﻿import { getArrayOfDatesFrom } from '../../../helpers/DateHelper';
 import CalendarCard from '../CalendarCard/CalendarCard';
 import './CalendarPanel.css'
 

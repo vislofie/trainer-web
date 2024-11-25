@@ -1,1 +1,71 @@
-﻿
+﻿.exercise-container {
+    gap: 1.5em;
+    display: flex;
+    flex-direction: column;
+}
+
+.searchbar {
+    background: #1E293B;
+    border-radius: 1.2em;
+    height: 4.8em;
+
+    display: flex;
+    padding: 0em 1.2em;
+}
+
+.searchbar img {
+    width: 36px;
+    height: 36px;
+
+    margin: auto;
+    margin-left: 0.5em;
+}
+
+.searchbar input {
+    outline: none;
+    width: 100%;
+}
+
+.search-container-underline {
+    border-bottom: 3px solid #64748B;
+    margin-top: -0.7em;
+    margin-inline: 1.2em;
+    border-radius: 1.2em;
+}
+
+.exercise-menu {
+    background: #1E293B;
+    border-radius: 1.2em;
+    padding: 1.2em;
+    overflow-y: auto;
+    max-height: 72vh;
+}
+
+.button-row {
+    display: flex;
+    width: 100%;
+}
+
+.button-row button {
+    padding: 0.6em 1.2em;
+}
+
+.left-buttons {
+    display: flex;
+    width: 50%;
+    gap: 1.2em;
+}
+
+.right-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.2em;
+    width: 50%;
+    text-align: right;
+}
+
+.exercise-cards {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 1.2em;
+}

@@ -32,8 +32,6 @@ export const registerApi = async (email: string, username: string, password: str
             password: password
         });
 
-        
-
         console.log(response.statusText);
         return response;
     } catch (error) {

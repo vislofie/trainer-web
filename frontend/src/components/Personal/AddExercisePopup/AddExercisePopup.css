@@ -1,0 +1,196 @@
+﻿.popup-overlay {
+    position: fixed;
+    margin: auto;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-click-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.popup-container {
+    background-color: #0F172A;
+    padding: 2em;
+    border-radius: 10px;
+    width: 480px;
+    max-height: 80%;
+    overflow: auto;
+}
+
+.popup-container h1 {
+    text-align: center;
+}
+
+.text-fields {
+    font-size: 1.2em;
+}
+
+.suggestion-panel {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    background-color: #1E293B;
+    margin-top: -0.6em;
+    border-radius: 0em 0em 0.6em 0.6em;
+    z-index: 1;
+}
+
+.suggestion-panel.expanded {
+    opacity: 1;
+}
+
+.suggestion-panel p {
+    padding: 0.6em 1.2em 0.6em 1.2em;
+    margin: 0;
+    background-color: transparent;
+    transition: 0.3s background-color ease-out;
+}
+
+.suggestion-panel p:hover {
+    background-color: #0F172A;
+    margin: 0;
+}
+
+.selected-muscle-groups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3em;
+}
+
+.selected-muscle-groups p {
+    background-color: #1E293B;
+    padding: 0.3em 0.9em;
+    border-radius: 0.6em;
+    margin: 0;
+    margin-top: 0.3em;
+    transition: 0.2s background-color ease-out;
+}
+
+.selected-muscle-groups p:hover {
+    background-color: #941616;
+    padding: 0.3em 0.9em;
+    border-radius: 0.6em;
+    margin: 0;
+    margin-top: 0.3em;
+}
+
+.selected-muscle-groups p:active {
+    background-color: #c22a2a;
+}
+
+.level-exercises {
+    display: flex;
+    justify-content: space-between;
+}
+
+.level-exercises p {
+    background-color: #1E293B;
+    padding: 0.3em 0.9em;
+    font-size: 1.2em;
+    border-radius: 0.3em;
+
+    transition: 0.2s background-color ease-out;
+}
+
+.level-exercises p.selected {
+    background-color: #6C1A48;
+}
+
+.level-exercises p:hover {
+    background-color: #6C1A48;
+}
+
+.level-exercises p:active {
+    background-color: #451430;
+}
+
+.image-preview {
+    background-color: #334155;
+    width: 100%;
+    padding-bottom: 56.25%; /* This creates a 16:9 aspect ratio */
+    border-radius: 0.6em;
+    margin: 1em 0em;
+    position: relative;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.6em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+}
+
+.video-preview {
+    background-color: #334155;
+    width: 100%;
+    padding-bottom: 56.25%; /* This creates a 16:9 aspect ratio */
+    border-radius: 0.6em;
+    margin: 1em 0em;
+    position: relative;
+
+    position: relative;
+}
+
+.video-preview video {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.6em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+}
+
+.exercise-media-label button {
+    background-color: #1E293B;
+    font-weight: 600;
+    width: 100%;
+    display: flex;
+}
+
+.exercise-media-label button:hover {
+    background-color: #334155;
+}
+
+.exercise-media-label button:active {
+    background-color: #172130;
+}
+
+.exercise-media-label button p {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.exercise-media-label button img {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.exercise-media-upload {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.add-exercise {
+    text-align: center;
+    width: 100%;
+    margin: 5% 0%;
+}
