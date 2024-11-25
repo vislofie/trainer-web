@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using api.Context;
 using api.DTOs.Exercise;
 using api.DTOs.ExerciseLevel;
@@ -28,12 +29,15 @@ public class ExerciseRepository : IExerciseRepository
 
     public async Task<Exercise> CreateAsync(CreateExerciseRequestDto dto)
     {
-        var exercise = dto.ToExerciseFromCreateDTO();
         using (var transaction = await _context.Database.BeginTransactionAsync())
         {
             try
             {
-                exercise = await UploadMediaFiles(dto.Picture, dto.Video, exercise);
+                var exercise = dto.ToExerciseFromCreateDTO();
+                var maxId = _context.Exercises.Max(table => table.Id);
+                exercise.Id = maxId + 1;
+
+                Debug.WriteLine("-------------" + exercise.Id + "--------------");
 
                 if (dto.MuscleGroupIDs != null && dto.MuscleGroupIDs.Any())
                 {
@@ -50,17 +54,18 @@ public class ExerciseRepository : IExerciseRepository
                     exercise.ExerciseLevel = exerciseLevel;
                 }
 
-                _context.Exercises.Add(exercise);
+                exercise = await UploadMediaFiles(dto.Picture, dto.Video, exercise);
+                
+                await _context.Exercises.AddAsync(exercise);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
+                return exercise;
             } catch (Exception ex)
             {
                 await transaction.RollbackAsync();
                 throw;
             }
         }
-    
-        return exercise;
     }
 
     private async Task<Exercise> UploadMediaFiles(IFormFile picture, IFormFile video, Exercise exercise)
@@ -79,7 +84,7 @@ public class ExerciseRepository : IExerciseRepository
             await pictureFile.CopyToAsync(pictureStream);
             await _fileHandlerRepository.UploadFileAsync(picturePath, pictureStream);
             
-            var pictureInfo = new Models.FileInfo { Name = pictureName, Size = pictureFile.Length, Type = "Picture", Path = videoPath };
+            var pictureInfo = new Models.FileInfo { Name = pictureName, Size = pictureFile.Length, Type = "Picture", Path = picturePath };
             await _context.FileInfos.AddAsync(pictureInfo);
 
             var videoStream = new MemoryStream();
@@ -101,7 +106,7 @@ public class ExerciseRepository : IExerciseRepository
 
     public async Task<List<ExerciseLevel>> GetAllExerciseLevelsAsync()
     {
-        return await _context.ExerciseLevels.ToListAsync();
+        return await _context.ExerciseLevels.OrderBy(item => item.Id).ToListAsync();
     }
 
     public async Task<ExerciseLevel?> CreateExerciseLevelAsync(CreateExerciseLevelRequestDto createDto)
