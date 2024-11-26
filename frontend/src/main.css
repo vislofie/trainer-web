@@ -20,6 +20,7 @@ html, body {
 
 .container {
   margin: 0 5vw 3vw 5vw;
+  
 }
 
 .popup-overlay {
@@ -86,4 +87,30 @@ button:active {
 button.selected {
   background-color: #451430;
   cursor: default;
+}
+
+/* width */
+::-webkit-scrollbar {
+  background: transparent;
+  
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #6C1A48;
+  border-radius: 1.2em;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #992266;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #a12d6f;
 }
