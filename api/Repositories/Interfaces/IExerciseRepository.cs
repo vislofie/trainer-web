@@ -7,6 +7,7 @@ namespace api.Repositories.Interfaces;
 public interface IExerciseRepository
 {
     public Task<List<Exercise>> GetAllAsync();
+    public Task<Exercise?> GetByIdAsync(int id);
     public Task<Exercise> CreateAsync(CreateExerciseRequestDto dto);
 
     public Task<List<ExerciseLevel>> GetAllExerciseLevelsAsync();

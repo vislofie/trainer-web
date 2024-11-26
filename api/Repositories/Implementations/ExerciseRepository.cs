@@ -27,6 +27,16 @@ public class ExerciseRepository : IExerciseRepository
             .ToListAsync();
     }
 
+    public async Task<Exercise?> GetByIdAsync(int id)
+    {
+        var exercise = await _context.Exercises
+            .Include(e => e.MuscleGroups)
+            .Include(e => e.ExerciseLevel)
+            .FirstOrDefaultAsync(ex => ex.Id == id);
+
+        return exercise;
+    }
+
     public async Task<Exercise> CreateAsync(CreateExerciseRequestDto dto)
     {
         using (var transaction = await _context.Database.BeginTransactionAsync())
@@ -36,8 +46,6 @@ public class ExerciseRepository : IExerciseRepository
                 var exercise = dto.ToExerciseFromCreateDTO();
                 var maxId = _context.Exercises.Max(table => table.Id);
                 exercise.Id = maxId + 1;
-
-                Debug.WriteLine("-------------" + exercise.Id + "--------------");
 
                 if (dto.MuscleGroupIDs != null && dto.MuscleGroupIDs.Any())
                 {

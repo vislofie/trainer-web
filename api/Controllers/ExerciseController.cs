@@ -1,6 +1,7 @@
 using api.DTOs.Exercise;
 using api.DTOs.ExerciseLevel;
 using api.Mappers;
+using api.Models;
 using api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,20 @@ public class ExerciseController : ControllerBase
             return BadRequest(ModelState);
 
         return Ok((await _exerciseRepository.GetAllAsync()).Select(ex => ex.ToExerciseDto()));
+    }
+
+    [HttpGet("{id}")]
+    [Authorize]
+    public async Task<IActionResult> GetExerciseById(int id)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var exercise = await _exerciseRepository.GetByIdAsync(id);
+        if (exercise == null)
+            return BadRequest("No exercise with this id!");
+
+        return Ok(exercise.ToExerciseDto());
     }
 
     [HttpPost]
