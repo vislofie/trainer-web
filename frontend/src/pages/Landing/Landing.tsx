@@ -1,7 +1,7 @@
 import './Landing.css'
 import Navbar from '../../components/Navbar/Navbar'
 import promo2 from '../../assets/imgs/promo-2.jpg'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth';
 
@@ -14,10 +14,13 @@ function Landing() {
 
   return (
     <>
+      <video className='videoTag' src="src/assets/videos/landing.mp4" autoPlay loop playsInline/>
       <Navbar showNavigationLabels={true}/>
+      
       <div className="container">
         
         <div className="promo-container">
+          
           <div className="filler">
             <h1>
               The best workout tracker there is*.
@@ -34,7 +37,9 @@ function Landing() {
               *Certified by <a href="https://vk.com/id187280105" target="_blank">Stanislav Zmeu</a>
             </p>
           </div>
+          
         </div>
+        
 
         <div className="promo-list">
           <div className="info-card">

@@ -82,3 +82,8 @@ button:hover {
 button:active {
   background-color: #AF3279;
 }
+
+button.selected {
+  background-color: #451430;
+  cursor: default;
+}
