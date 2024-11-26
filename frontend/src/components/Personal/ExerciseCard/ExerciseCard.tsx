@@ -7,13 +7,14 @@ interface Props {
     imageUrl: string;
     muscleGroups: MuscleGroup[];
     lastPR: string;
+    onExerciseClick: () => void;
 }
 
-const ExerciseCard = ({name, muscleGroups, lastPR, imageUrl}: Props) => {
+const ExerciseCard = ({name, muscleGroups, lastPR, imageUrl, onExerciseClick}: Props) => {
   return (
     <div className="card-container" style={{backgroundImage: "url(" + imageUrl + ")"}}>
         <div className="title-row">
-            <h2>
+            <h2 style={{cursor: 'pointer'}} onClick={onExerciseClick}>
                 {name}
             </h2>
             <img src={plusIcon} style={{cursor: 'pointer'}}/>

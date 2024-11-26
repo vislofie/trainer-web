@@ -20,6 +20,20 @@ export const getExercises = async () => {
     }
 }
 
+export const getExerciseById = async (id: number) => {
+    try {
+        const data = await axios.get<Exercise>(`${api}/${subDomain}/${id}`);
+        return data.data;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.log("error message: ", error.message);
+        }
+        else {
+            console.log("unexpected error");
+        }
+    }
+}
+
 export const getExerciseLevels = async () => {
     try {
         const data = await axios.get<ExerciseLevel[]>(`${api}/${subDomain}/${levelsSubDomain}`);

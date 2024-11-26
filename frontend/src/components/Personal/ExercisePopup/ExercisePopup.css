@@ -1,0 +1,27 @@
+﻿.button-container {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 7%;
+    padding-right: 7%;
+}
+
+.popup-player {
+    width: 100%;
+    height: 20em;
+    object-fit:cover;
+}
+
+.button-container button {
+    width: 10em;
+    border-radius: 0.3em;
+}
+
+.info-category {
+    text-decoration: underline;
+    line-height: 0.3em;
+    font-weight: 500;
+}
+
+.info-value {
+    font-size: 1.2em;
+}

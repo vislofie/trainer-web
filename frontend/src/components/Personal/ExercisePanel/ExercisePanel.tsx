@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { getExercises } from '../../../services/ExerciseService';
 import { Exercise } from '../../../models/Exercise';
 import { getFileUrl } from '../../../services/FileService';
+import ExercisePopup from '../ExercisePopup/ExercisePopup';
 
 interface Props {
 
@@ -13,9 +14,11 @@ interface Props {
 
 const ExercisePanel = (props: Props) => {
 
-  const [isPopupActive, setPopupActive] = useState<boolean>(false);
+  const [isCreatePopupActive, setCreatePopupActive] = useState<boolean>(false);
+  const [isExercisePopupActive, setExercisePopupActive] = useState<boolean>(false);
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [refresh, setRefresh] = useState(0);
+  const [selectedExerciseId, setExerciseId] = useState(-1);
 
   useEffect(() => {
     const getExercisesInit = async () => {
@@ -27,13 +30,18 @@ const ExercisePanel = (props: Props) => {
   }, [refresh])
 
   const handlePopupVisibility = (visible: boolean) => {
-    setPopupActive(visible);
+    setCreatePopupActive(visible);
     setTimeout(() => setRefresh(refresh + 1), 300);
+  }
+
+  const handleExercisePopupVisibility = (visible: boolean) => {
+    setExercisePopupActive(visible);
   }
 
   return (
     <>
-    {isPopupActive && (<AddExercisePopup onClose={() => handlePopupVisibility(false)}/>)}
+    {isCreatePopupActive && (<AddExercisePopup onClose={() => handlePopupVisibility(false)}/>)}
+    {isExercisePopupActive && (<ExercisePopup onClose={() => handleExercisePopupVisibility(false)} exercise={exercises.find(ex => ex.id == selectedExerciseId)!}/>)}
     <div className="exercise-container">
       <div className="search-container">
         <div className="searchbar">
@@ -68,7 +76,13 @@ const ExercisePanel = (props: Props) => {
           </h1>
           <div className="exercise-cards">
             {exercises.filter(ex => !ex.isApproved).map((exercise, index) => (
-              <ExerciseCard key={index} name={exercise.title} muscleGroups={exercise.muscleGroups} lastPR={'-'} imageUrl={getFileUrl(exercise.pictureId)}/>
+              <ExerciseCard 
+                key={index} 
+                name={exercise.title} 
+                muscleGroups={exercise.muscleGroups} 
+                lastPR={'-'} 
+                imageUrl={getFileUrl(exercise.pictureId)}
+                onExerciseClick={() => {handleExercisePopupVisibility(true); setExerciseId(exercise.id);}}/>
             ))}
           </div>
           <h1>
@@ -76,7 +90,13 @@ const ExercisePanel = (props: Props) => {
           </h1>
           <div className="exercise-cards">
             {exercises.filter(ex => ex.isApproved).map((exercise, index) =>(
-              <ExerciseCard key={index} name={exercise.title} muscleGroups={exercise.muscleGroups} lastPR={'-'} imageUrl={getFileUrl(exercise.pictureId)}/>
+              <ExerciseCard 
+                key={index} 
+                name={exercise.title} 
+                muscleGroups={exercise.muscleGroups} 
+                lastPR={'-'} 
+                imageUrl={getFileUrl(exercise.pictureId)}
+                onExerciseClick={() => {handleExercisePopupVisibility(true); setExerciseId(exercise.id);}}/>
             ))}
           </div>
         </div> 

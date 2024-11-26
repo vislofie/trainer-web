@@ -292,9 +292,7 @@ const AddExercisePopup = ({onClose}: Props) => {
 
           
       </form>
-      <div className="popup-click-container" style={{cursor: 'pointer'}} onClick={(e) => onClose()}>
-
-      </div>
+      <div className="popup-click-container" style={{cursor: 'pointer'}} onClick={(e) => onClose()}/>
     </div>
   )
 }
