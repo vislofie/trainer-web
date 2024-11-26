@@ -268,7 +268,7 @@ const AddExercisePopup = ({onClose}: Props) => {
                     onChange={handleSelectPicture}/>
             {errors.imagePresent && <p className='error'>{errors.imagePresent.message}</p>}
             <div className="video-preview">
-                <video src={selectedVideoPreview}/>
+                <video src={selectedVideoPreview} controls/>
             </div>
 
             <label htmlFor='exercise-media' className='exercise-media-label'>

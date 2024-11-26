@@ -39,9 +39,11 @@ const ExercisePopup = ({onClose, exercise}: Props) => {
                 <button>
                     Add to workout
                 </button>
+                {!exercise.isApproved && (
                 <button>
                     Edit exercise
                 </button>
+                )}
             </div>
         </div>
         <div className="popup-click-container" style={{cursor: 'pointer'}} onClick={onClose}/>

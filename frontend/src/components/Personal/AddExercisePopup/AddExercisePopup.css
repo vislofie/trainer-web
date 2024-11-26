@@ -1,6 +1,8 @@
 ﻿.popup-container {
     background-color: #0F172A;
-    padding: 2em;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 2em;
     border-radius: 10px;
     width: 480px;
     max-height: 80%;
