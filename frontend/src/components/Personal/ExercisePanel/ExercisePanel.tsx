@@ -34,11 +34,12 @@ const ExercisePanel = (props: Props) => {
 
   const handlePopupVisibility = (visible: boolean) => {
     setCreatePopupActive(visible);
-    setTimeout(() => setRefresh(refresh + 1), 300);
+    setRefresh(val => val + 1);
   }
 
   const handleExercisePopupVisibility = (visible: boolean) => {
     setExercisePopupActive(visible);
+    setRefresh(val => val + 1);
   }
 
   const handleSearchExercise = (e: React.ChangeEvent<HTMLInputElement>) => {

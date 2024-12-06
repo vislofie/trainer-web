@@ -20,10 +20,10 @@ export type Exercise = {
 }
 
 export type ExerciseUpload = {
-    title: string;
-    description: string;
-    picture: File;
-    video: File;
-    exerciseLevelId: number;
-    muscleGroupIds: number[];
+    title?: string;
+    description?: string;
+    picture?: File;
+    video?: File;
+    exerciseLevelId?: number;
+    muscleGroupIds?: number[];
 }

@@ -65,12 +65,12 @@ export const getMuscleGroups = async () => {
 export const addExercise = async (exercise: ExerciseUpload) => {
     try {
         const data = new FormData();
-        data.append("title", exercise.title);
-        data.append("description", exercise.description);
-        data.append("picture", exercise.picture);
-        data.append("video", exercise.video);
-        data.append("exerciseLevelId", exercise.exerciseLevelId.toString());
-        data.append("muscleGroupIds", exercise.muscleGroupIds.join(','))
+        data.append("title", exercise.title!);
+        data.append("description", exercise.description!);
+        data.append("picture", exercise.picture!);
+        data.append("video", exercise.video!);
+        data.append("exerciseLevelId", exercise.exerciseLevelId!.toString());
+        data.append("muscleGroupIds", exercise.muscleGroupIds!.join(','))
         
 
         await axios.postForm(`${api}/${subDomain}`, data, {
@@ -88,3 +88,40 @@ export const addExercise = async (exercise: ExerciseUpload) => {
     }
 }
 
+export const updateExercise = async (exerciseId: number, exercise: ExerciseUpload) => {
+    try {
+        const data = new FormData();
+        if (exercise.title) {
+            data.append("title", exercise.title);
+        }
+        if (exercise.description) {
+            data.append("description", exercise.description);
+        }
+        if (exercise.picture) {
+            data.append("picture", exercise.picture);
+        }
+        if (exercise.video) {
+            data.append("video", exercise.video);
+        }
+        if (exercise.exerciseLevelId) {
+            data.append("exerciseLevelId", exercise.exerciseLevelId.toString());
+        }
+        if (exercise.muscleGroupIds) {
+            exercise.muscleGroupIds.forEach(id => {
+                data.append("muscleGroupIds", id.toString());
+            });
+        }
+
+        await axios.putForm(`${api}/${subDomain}/${exerciseId}`, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.log("error message: ", error.message);
+        } else {
+            console.log("unexpected error");
+        }
+    }
+}

@@ -6,18 +6,20 @@ import { debounce } from 'lodash';
 import React from 'react';
 import uploadIcon from "../../../assets/icons/personal cabient/upload.svg"
 import { useRef } from 'react';
-import { ExerciseLevel, MuscleGroup } from '../../../models/Exercise';
+import { Exercise, ExerciseLevel, MuscleGroup } from '../../../models/Exercise';
 import { ExerciseUpload } from '../../../models/Exercise';
-import { addExercise, getExerciseLevels, getMuscleGroups } from '../../../services/ExerciseService';
+import { addExercise, getExerciseLevels, getMuscleGroups, updateExercise } from '../../../services/ExerciseService';
 import * as Yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { getFileUrl } from '../../../services/FileService';
 
 interface Props {
     onClose : () => void;
+    loadedExercise?: Exercise;
 }
 
-const AddExercisePopup = ({onClose}: Props) => {
+const AddExercisePopup = ({onClose, loadedExercise}: Props) => {
   type ExerciseAddFormInputs = {
     exerciseName: string;
     exerciseDescription: string;
@@ -41,10 +43,13 @@ const AddExercisePopup = ({onClose}: Props) => {
 
   const [exerciseTitle, setExerciseTitle] = useState<string>('');
   const [exerciseDescription, setExerciseDescription] = useState<string>('');
+
   const [muscleValue, setMuscleValue] = useState<string>('');
   const [muscleGroups, setMuscleGroups] = useState<MuscleGroup[]>([]);
   const [filteredMuscleGroups, setFilteredMuscleGroups] = useState<MuscleGroup[]>([])
   const [selectedMuscleGroups, setSelectedMuscleGroups] = useState<MuscleGroup[]>([])
+
+  const [uploading, setUploading] = useState<boolean>(false);
   
   const [key, setKey] = useState(0);
 
@@ -151,11 +156,16 @@ const AddExercisePopup = ({onClose}: Props) => {
   }, [selectedVideo])
 
   useEffect(() => {
-    const exerciseLevelInit = async() => {
+    const dataInit = async() => {
       const levels = await getExerciseLevels();
-      if (levels) {
-        setExerciseLevels(levels);
+      if (!levels) {
+        return;
       }
+
+      setExerciseLevels(levels);
+
+      await muscleGroupsInit();
+      await loadExerciseData(levels!);
     }
     const muscleGroupsInit = async() => {
       const muscleGroups = await getMuscleGroups();
@@ -164,15 +174,40 @@ const AddExercisePopup = ({onClose}: Props) => {
       }
     }
 
-    exerciseLevelInit();
-    muscleGroupsInit();
+    const loadExerciseData = async(levels: ExerciseLevel[]) => {
+      if (loadedExercise) {
+        setExerciseTitle(loadedExercise.title);
+        setExerciseDescription(loadedExercise.description);
+        setSelectedMuscleLevel(levels.findIndex(el => el.name === loadedExercise.exerciseLevel.name));
+        setSelectedMuscleGroups(loadedExercise.muscleGroups);
+  
+        setSelectedPicturePreview(await getFileUrl(loadedExercise.pictureId));
+        setSelectedVideoPreview(await getFileUrl(loadedExercise.videoId));
+
+        setValue("exerciseName", loadedExercise.title);
+        setValue("exerciseDescription", loadedExercise.description);
+        setValue("hasMuscleGroups", true);
+        setValue("imagePresent", true);
+        setValue("videoPresent", true);
+        trigger();
+      }
+    }
+
+    dataInit();
   }, [])
+
 
   const handleSelectPicture = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || event.target.files.length === 0) {
       setValue('imagePresent', false);
       setSelectedPicture(undefined);
       trigger('imagePresent');
+      return;
+    }
+
+    if (event.target.files[0].size > 30_000_000)
+    {
+      alert('File is bigger than 30 MB! Select a smaller file.');
       return;
     }
 
@@ -189,13 +224,19 @@ const AddExercisePopup = ({onClose}: Props) => {
       return;
     }
 
+    if (event.target.files[0].size > 30_000_000)
+    {
+      alert('File is bigger than 30 MB! Select a smaller file.');
+      return;
+    }
+
     setValue('videoPresent', true);
     setSelectedVideo(event.target.files[0]);
     trigger('videoPresent');
   }
 
   const handleExerciseAdd = () => {
-    const exercisePost = async () => {
+    const exerciseCreate = async () => {
       const exercise: ExerciseUpload = {
         title: exerciseTitle,
         description: exerciseDescription,
@@ -205,11 +246,53 @@ const AddExercisePopup = ({onClose}: Props) => {
         muscleGroupIds: selectedMuscleGroups.map(mg => mg.id)
       }
 
+      
+
       await addExercise(exercise);
+      onClose();
     }
 
-    exercisePost();
-    onClose();
+    const exerciseUpdate = async () => {
+      const exerciseNew: ExerciseUpload = {
+        title: undefined,
+        description: undefined,
+        picture: undefined,
+        video: undefined,
+        exerciseLevelId: undefined,
+        muscleGroupIds: undefined
+      };
+      
+      if (loadedExercise?.title != exerciseTitle) {
+        exerciseNew.title = exerciseTitle;
+      }
+      if (loadedExercise?.description != exerciseDescription) {
+        exerciseNew.description = exerciseDescription;
+      }
+      if (selectedPicture !== undefined) {
+        exerciseNew.picture = selectedPicture;
+      }
+      if (selectedVideo !== undefined) {
+        exerciseNew.video = selectedVideo;
+      }
+      if (loadedExercise?.exerciseLevel.name !== exerciseLevels[selectedMuscleLevel].name) {
+        exerciseNew.exerciseLevelId = exerciseLevels[selectedMuscleLevel].id;
+      }
+      if (loadedExercise?.muscleGroups !== selectedMuscleGroups) {
+        exerciseNew.muscleGroupIds = selectedMuscleGroups.map(mg => mg.id);
+      }
+
+      console.log(exerciseNew);
+
+      await updateExercise(loadedExercise?.id!, exerciseNew);
+      onClose();
+    }
+
+    if (!loadedExercise) {
+      exerciseCreate();
+    }
+    else {
+      exerciseUpdate();
+    }
   }
 
   return (
@@ -217,9 +300,9 @@ const AddExercisePopup = ({onClose}: Props) => {
       <form className="popup-container" onSubmit={handleSubmit(handleExerciseAdd)}>
         <h1>Add exercise</h1>
           <div className="text-fields">
-            <TextField inputType='text' placeholder='Exercise name' {...register('exerciseName')} value={exerciseTitle} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setExerciseTitle(e.target.value)}/>
+            <TextField inputType='text' placeholder='Exercise name' {...register('exerciseName')} value={exerciseTitle} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setExerciseTitle(e.target.value); }}/>
             {errors.exerciseName && <p className="error">{errors.exerciseName.message}</p>}
-            <TextField inputType='text' placeHolder='Exercise instructions' {...register('exerciseDescription')} value={exerciseDescription} onChange={(e:React.ChangeEvent<HTMLInputElement>) => setExerciseDescription(e.target.value)}/>
+            <TextField inputType='text' placeHolder='Exercise instructions' {...register('exerciseDescription')} value={exerciseDescription} onChange={(e:React.ChangeEvent<HTMLInputElement>) => {setExerciseDescription(e.target.value); }}/>
             {errors.exerciseDescription && <p className="error">{errors.exerciseDescription.message}</p>}
             <TextField inputType='text' placeholder='Muscle groups' onChange={(e: React.ChangeEvent<HTMLInputElement>) => { handleMuscleChange(e); setMuscleValue(e.target.value)}} value={muscleValue}/>
             {filteredMuscleGroups.length > 0 && (
@@ -246,7 +329,7 @@ const AddExercisePopup = ({onClose}: Props) => {
 
             <div className="level-exercises">
               {exerciseLevels.map((exerciseLevel, index) => (
-                <p className={index === selectedMuscleLevel ? 'selected' : ''} key={index} style={{cursor: 'pointer'}} onClick={() => setSelectedMuscleLevel(index)}>{exerciseLevel.name}</p>
+                <p className={index === selectedMuscleLevel ? 'selected' : ''} key={index} style={{cursor: 'pointer'}} onClick={() => { setSelectedMuscleLevel(index); }}>{exerciseLevel.name}</p>
               ))}
             </div>
 
@@ -255,7 +338,7 @@ const AddExercisePopup = ({onClose}: Props) => {
             </div>
 
             <label htmlFor='exericse-media' className='exercise-media-label'>
-              <button onClick={handleImageUploadClick}>
+              <button onClick={handleImageUploadClick} type='button'>
                 <p>Upload image of the exercise</p>
                 <img src={uploadIcon}></img>
               </button>
@@ -272,7 +355,7 @@ const AddExercisePopup = ({onClose}: Props) => {
             </div>
 
             <label htmlFor='exercise-media' className='exercise-media-label'>
-              <button onClick={handleVideoUploadClick}>
+              <button onClick={handleVideoUploadClick} type='button'>
                 <p>Upload video of the exercise</p>
                 <img src={uploadIcon}></img>
               </button>
@@ -285,14 +368,25 @@ const AddExercisePopup = ({onClose}: Props) => {
                     onChange={handleSelectVideo}/>
             {errors.videoPresent && <p className='error'>{errors.videoPresent.message}</p>}
 
-            <button className='add-exercise' type='submit'>
-              Add exercise
-            </button>
+            {loadedExercise ? 
+            (
+              <button className='add-exercise' type='submit' disabled={uploading}>
+                Update exercise
+              </button>
+            )
+            :
+            (
+              <button className='add-exercise' type='submit' disabled={uploading}>
+                Add exercise
+              </button>
+            )
+          }
+            
           </div>
 
           
       </form>
-      <div className="popup-click-container" style={{cursor: 'pointer'}} onClick={(e) => onClose()}/>
+      <div className="popup-click-container" style={{cursor: 'pointer'}} onClick={(e) => { if (!uploading) onClose()}}/>
     </div>
   )
 }
