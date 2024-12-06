@@ -1,7 +1,6 @@
 using api.DTOs.Exercise;
 using api.DTOs.ExerciseLevel;
 using api.Mappers;
-using api.Models;
 using api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +27,7 @@ public class ExerciseController : ControllerBase
         return Ok((await _exerciseRepository.GetAllAsync()).Select(ex => ex.ToExerciseDto()));
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     [Authorize]
     public async Task<IActionResult> GetExerciseById(int id)
     {
@@ -42,8 +41,22 @@ public class ExerciseController : ControllerBase
         return Ok(exercise.ToExerciseDto());
     }
 
+    [HttpPut("{id:int}")]
+    [Authorize]
+    [RequestSizeLimit(100_000_000)]
+    public async Task<IActionResult> UpdateExerciseById(int id, [FromForm] UpdateExerciseRequestDto updateDto)
+    {
+         if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        await _exerciseRepository.UpdateByIdAsync(id, updateDto);
+        
+        return Ok();
+    }
+
     [HttpPost]
     [Authorize]
+    [RequestSizeLimit(100_000_000)]
     public async Task<IActionResult> AddExercise([FromForm] CreateExerciseRequestDto createDto)
     {
         if (!ModelState.IsValid)

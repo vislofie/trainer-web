@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using api.Context;
 using api.DTOs.Exercise;
 using api.DTOs.ExerciseLevel;
@@ -56,19 +55,26 @@ public class ExerciseRepository : IExerciseRepository
                     exercise.MuscleGroups = muscleGroups;
                 }
 
-                if (dto.ExerciseLevelID != null)
+                var exerciseLevel = await _context.ExerciseLevels.FirstOrDefaultAsync(el => el.Id == dto.ExerciseLevelID);
+                if (exerciseLevel == null)
                 {
-                    var exerciseLevel = await _context.ExerciseLevels.FirstOrDefaultAsync(el => el.Id == dto.ExerciseLevelID);
-                    exercise.ExerciseLevel = exerciseLevel;
+                    await transaction.RollbackAsync();
+                    throw new Exception("No exercise level with this ID");
                 }
+                
+                exercise.ExerciseLevel = exerciseLevel;
 
-                exercise = await UploadMediaFiles(dto.Picture, dto.Video, exercise);
+                exercise = await UploadPicture(dto.Picture, exercise);
+                exercise = await UploadVideo(dto.Video, exercise);
                 
                 await _context.Exercises.AddAsync(exercise);
                 await _context.SaveChangesAsync();
+
+                await _fileHandlerRepository.CleanUnusedFilesAsync();
+
                 await transaction.CommitAsync();
                 return exercise;
-            } catch (Exception ex)
+            } catch
             {
                 await transaction.RollbackAsync();
                 throw;
@@ -76,25 +82,113 @@ public class ExerciseRepository : IExerciseRepository
         }
     }
 
-    private async Task<Exercise> UploadMediaFiles(IFormFile picture, IFormFile video, Exercise exercise)
+    public async Task<Exercise?> UpdateByIdAsync(int id, UpdateExerciseRequestDto updateDto)
+    {
+        using (var transaction = await _context.Database.BeginTransactionAsync())
+        {
+            try
+            {
+                var exercise = await _context.Exercises
+                                        .Include(e => e.MuscleGroups)
+                                        .Include(e => e.ExerciseLevel)
+                                        .FirstOrDefaultAsync(ex => ex.Id == id);
+
+                if (exercise == null)
+                    return null;
+
+                if (updateDto.Title != null)
+                {
+                    exercise.Title = updateDto.Title;
+                }
+                if (updateDto.Description != null)
+                {
+                    exercise.Description = updateDto.Description;
+                }
+                if (updateDto.Picture != null)
+                {
+                    exercise = await UploadPicture(updateDto.Picture, exercise);   
+                }
+                if (updateDto.Video != null)
+                {
+                    exercise = await UploadVideo(updateDto.Video, exercise);
+                }
+                if (updateDto.ExerciseLevelID != null)
+                {
+                    var exerciseLevel = await _context.ExerciseLevels.FirstOrDefaultAsync(exl => exl.Id == updateDto.ExerciseLevelID);
+
+                    if (exerciseLevel != null)
+                        exercise.ExerciseLevel = exerciseLevel;
+                }
+                if (updateDto.MuscleGroupIDs != null && updateDto.MuscleGroupIDs.Any())
+                {
+                    var currentMuscleGroupIds = exercise.MuscleGroups.Select(mg => mg.Id).ToList();
+                    var muscleGroupsToAdd = updateDto.MuscleGroupIDs.Except(currentMuscleGroupIds);
+                    var muscleGroupsToRemove = currentMuscleGroupIds.Except(updateDto.MuscleGroupIDs);
+
+                    foreach (var idToAdd in muscleGroupsToAdd)
+                    {
+                        var muscleGroup = await _context.MuscleGroup.FindAsync(idToAdd);
+                        if (muscleGroup != null)
+                            exercise.MuscleGroups.Add(muscleGroup);
+                    }
+
+                    foreach (var idToRemove in muscleGroupsToRemove)
+                    {
+                        var muscleGroupToRemove = exercise.MuscleGroups.FirstOrDefault(mg => mg.Id == idToRemove);
+                        if (muscleGroupToRemove != null)
+                            exercise.MuscleGroups.Remove(muscleGroupToRemove);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                await _fileHandlerRepository.CleanUnusedFilesAsync();
+
+                await transaction.CommitAsync();
+                return exercise;
+            } catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+        
+    }
+
+    private async Task<Exercise> UploadPicture(IFormFile picture, Exercise exercise)
     {
         try
         {
             var pictureFile = picture;
-            var videoFile = video;
 
             string pictureName = Guid.NewGuid().ToString() + Path.GetExtension(pictureFile.FileName);
-            string videoName = Guid.NewGuid().ToString() + Path.GetExtension(videoFile.FileName);
             string picturePath = $"exercises/media/{exercise.Id}/{pictureName}";
-            string videoPath = $"exercises/media/{exercise.Id}/{videoName}";
-            
+
             var pictureStream = new MemoryStream();
             await pictureFile.CopyToAsync(pictureStream);
             await _fileHandlerRepository.UploadFileAsync(picturePath, pictureStream);
-            
+
             var pictureInfo = new Models.FileInfo { Name = pictureName, Size = pictureFile.Length, Type = "Picture", Path = picturePath };
             await _context.FileInfos.AddAsync(pictureInfo);
 
+            exercise.Picture = pictureInfo;
+
+            return exercise;
+        } catch
+        {
+            throw;
+        }
+    }
+
+    private async Task<Exercise> UploadVideo(IFormFile video, Exercise exercise)
+    {
+        try
+        {
+            var videoFile = video;
+            
+            string videoName = Guid.NewGuid().ToString() + Path.GetExtension(videoFile.FileName);
+            string videoPath = $"exercises/media/{exercise.Id}/{videoName}";
+            
             var videoStream = new MemoryStream();
             await videoFile.CopyToAsync(videoStream);
             await _fileHandlerRepository.UploadFileAsync(videoPath, videoStream);
@@ -102,7 +196,6 @@ public class ExerciseRepository : IExerciseRepository
             var videoInfo = new Models.FileInfo { Name = videoName, Size = videoFile.Length, Type = "Video", Path = videoPath };
             await _context.FileInfos.AddAsync(videoInfo);
 
-            exercise.Picture = pictureInfo;
             exercise.Video = videoInfo;
 
             return exercise;
@@ -111,6 +204,7 @@ public class ExerciseRepository : IExerciseRepository
             throw;
         }
     }
+
 
     public async Task<List<ExerciseLevel>> GetAllExerciseLevelsAsync()
     {
