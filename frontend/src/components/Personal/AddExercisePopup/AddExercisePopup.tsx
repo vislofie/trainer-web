@@ -246,7 +246,7 @@ const AddExercisePopup = ({onClose, loadedExercise}: Props) => {
         muscleGroupIds: selectedMuscleGroups.map(mg => mg.id)
       }
 
-      
+      setUploading(true);      
 
       await addExercise(exercise);
       onClose();
@@ -361,7 +361,7 @@ const AddExercisePopup = ({onClose, loadedExercise}: Props) => {
               </button>
             </label>
             <input  type="file" 
-                    accept=".mp4, .webm, .mov"
+                    accept=".mp4, .webm"
                     name='exercise-video' 
                     className='exercise-media-upload' 
                     ref={uploadVideoRef}
