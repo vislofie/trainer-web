@@ -11,6 +11,7 @@ public class ExerciseDto
     public int PictureId { get; set; }
     public int VideoId { get; set; }
     public bool IsApproved { get; set; } = false;
+    public string CreatedBy { get; set; }
 
     public ExerciseLevelDto ExerciseLevel { get; set; }
     public ICollection<MuscleGroupDto> MuscleGroups { get; set; }

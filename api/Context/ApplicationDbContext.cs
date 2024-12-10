@@ -47,6 +47,11 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
               .HasForeignKey(x => x.ExerciseLevelId)
               .OnDelete(DeleteBehavior.Restrict);
 
+            ex.HasOne(x => x.CreatedBy)
+              .WithMany(u => u.Exercises)
+              .HasForeignKey(x => x.CreatedById)
+              .OnDelete(DeleteBehavior.Cascade);
+
             // many-to-many with muscle group
             ex.HasMany(e => e.MuscleGroups)
               .WithMany(mg => mg.Exercises);

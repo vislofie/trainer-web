@@ -65,13 +65,13 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b5a15467-89d7-4f34-b80e-63956956e8d9",
+                            Id = "8483e568-62ff-4f1d-9160-d6196d8cbdaa",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "0217ae5f-06c0-44b9-a532-88d2b918fbb2",
+                            Id = "0280bdd8-a184-4191-b4f9-ef31c2b7c20c",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -255,6 +255,10 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CreatedById")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -276,6 +280,8 @@ namespace api.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
 
                     b.HasIndex("ExerciseLevelId");
 
@@ -483,6 +489,12 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.Exercise", b =>
                 {
+                    b.HasOne("api.Models.AppUser", "CreatedBy")
+                        .WithMany("Exercises")
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("api.Models.ExerciseLevel", "ExerciseLevel")
                         .WithMany("Exercises")
                         .HasForeignKey("ExerciseLevelId")
@@ -500,6 +512,8 @@ namespace api.Migrations
                         .HasForeignKey("VideoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("CreatedBy");
 
                     b.Navigation("ExerciseLevel");
 
@@ -536,6 +550,11 @@ namespace api.Migrations
                         .IsRequired();
 
                     b.Navigation("Set");
+                });
+
+            modelBuilder.Entity("api.Models.AppUser", b =>
+                {
+                    b.Navigation("Exercises");
                 });
 
             modelBuilder.Entity("api.Models.ExerciseLevel", b =>

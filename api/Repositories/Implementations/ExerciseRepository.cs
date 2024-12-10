@@ -4,6 +4,7 @@ using api.DTOs.ExerciseLevel;
 using api.Mappers;
 using api.Models;
 using api.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Repositories.Implementations;
@@ -21,6 +22,7 @@ public class ExerciseRepository : IExerciseRepository
     public async Task<List<Exercise>> GetAllAsync()
     {
         return await _context.Exercises
+            .Include(e => e.CreatedBy)
             .Include(e => e.MuscleGroups)
             .Include(e => e.ExerciseLevel)
             .ToListAsync();
@@ -36,14 +38,18 @@ public class ExerciseRepository : IExerciseRepository
         return exercise;
     }
 
-    public async Task<Exercise> CreateAsync(CreateExerciseRequestDto dto)
+    public async Task<Exercise> CreateAsync(CreateExerciseServiceDto dto)
     {
         using (var transaction = await _context.Database.BeginTransactionAsync())
         {
             try
             {
-                var exercise = dto.ToExerciseFromCreateDTO();
-                var maxId = _context.Exercises.Max(table => table.Id);
+                var exercise = dto.ToExercise();
+                int maxId = -1;
+                if (await _context.Exercises.AnyAsync())
+                {
+                    maxId = _context.Exercises.Max(table => table.Id);
+                }
                 exercise.Id = maxId + 1;
 
                 if (dto.MuscleGroupIDs != null && dto.MuscleGroupIDs.Any())
@@ -91,10 +97,8 @@ public class ExerciseRepository : IExerciseRepository
                 var exercise = await _context.Exercises
                                         .Include(e => e.MuscleGroups)
                                         .Include(e => e.ExerciseLevel)
+                                        .Include(e => e.CreatedBy)
                                         .FirstOrDefaultAsync(ex => ex.Id == id);
-
-                if (exercise == null)
-                    return null;
 
                 if (updateDto.Title != null)
                 {
@@ -223,4 +227,6 @@ public class ExerciseRepository : IExerciseRepository
 
         return exerciseLevel;
     }
+
+    
 }

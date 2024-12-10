@@ -9,6 +9,9 @@ public class Exercise
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
+    public string CreatedById { get; set; }
+    public AppUser CreatedBy { get; set; }
+
     public int PictureId { get; set; }
     public FileInfo Picture { get; set; }
     

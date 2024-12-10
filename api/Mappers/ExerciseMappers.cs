@@ -26,7 +26,33 @@ public static class ExerciseMappers
             VideoId = exercise.VideoId,
             IsApproved = exercise.IsApproved,
             ExerciseLevel = exercise.ExerciseLevel.ToExerciseLevelDto(),
-            MuscleGroups = exercise.MuscleGroups.Select(mg => mg.ToMuscleGroupDTO()).ToArray()
+            MuscleGroups = exercise.MuscleGroups.Select(mg => mg.ToMuscleGroupDTO()).ToArray(),
+            CreatedBy = exercise.CreatedById
+        };
+    }
+
+    public static CreateExerciseServiceDto ToExerciseServiceDTO(this CreateExerciseRequestDto dto, string Id)
+    {
+        return new CreateExerciseServiceDto
+        {
+            Title = dto.Title,
+            Description = dto.Description,
+            CreatedById = Id,
+            ExerciseLevelID = dto.ExerciseLevelID,
+            MuscleGroupIDs = dto.MuscleGroupIDs,
+            Picture = dto.Picture,
+            Video = dto.Video
+        };
+    }
+
+    public static Exercise ToExercise(this CreateExerciseServiceDto dto)
+    {
+        return new Exercise
+        {
+            Title = dto.Title,
+            Description = dto.Description,
+            IsApproved = false,
+            CreatedById = dto.CreatedById
         };
     }
 }

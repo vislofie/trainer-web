@@ -1,7 +1,7 @@
 using api.DTOs.Exercise;
 using api.DTOs.ExerciseLevel;
 using api.Mappers;
-using api.Repositories.Interfaces;
+using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +11,10 @@ namespace api.Controllers;
 [Route("api/exercises")]
 public class ExerciseController : ControllerBase
 {
-    private IExerciseRepository _exerciseRepository;
-    public ExerciseController(IExerciseRepository exerciseRepository)
+    private readonly IExerciseService _exerciseService;
+    public ExerciseController(IExerciseService exerciseService)
     {
-        _exerciseRepository = exerciseRepository;
+        _exerciseService = exerciseService;
     }
 
     [HttpGet]
@@ -24,7 +24,7 @@ public class ExerciseController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        return Ok((await _exerciseRepository.GetAllAsync()).Select(ex => ex.ToExerciseDto()));
+        return Ok((await _exerciseService.GetAllAsync()).Select(ex => ex.ToExerciseDto()));
     }
 
     [HttpGet("{id:int}")]
@@ -34,7 +34,7 @@ public class ExerciseController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var exercise = await _exerciseRepository.GetByIdAsync(id);
+        var exercise = await _exerciseService.GetByIdAsync(id);
         if (exercise == null)
             return BadRequest("No exercise with this id!");
 
@@ -49,8 +49,7 @@ public class ExerciseController : ControllerBase
          if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        await _exerciseRepository.UpdateByIdAsync(id, updateDto);
-        
+        await _exerciseService.UpdateByIdAsync(id, updateDto);
         return Ok();
     }
 
@@ -62,7 +61,7 @@ public class ExerciseController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
         
-        var exerciseModel = await _exerciseRepository.CreateAsync(createDto);
+        var exerciseModel = await _exerciseService.CreateAsync(createDto);
         return Ok(exerciseModel.ToExerciseDto());
     }
 
@@ -73,7 +72,7 @@ public class ExerciseController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var exerciseLevels = await _exerciseRepository.GetAllExerciseLevelsAsync();
+        var exerciseLevels = await _exerciseService.GetExerciseLevelsAsync();
         return Ok(exerciseLevels.Select(el => el.ToExerciseLevelDto()));
     }
 
@@ -84,7 +83,7 @@ public class ExerciseController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
         
-        var exerciseLevel = await _exerciseRepository.CreateExerciseLevelAsync(createDto);
+        var exerciseLevel = await _exerciseService.CreateExerciseLevelAsync(createDto);
         if (exerciseLevel == null)
             return BadRequest("There is already an exercise level with this name!");
         

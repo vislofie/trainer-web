@@ -65,7 +65,8 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.Password.RequireLowercase = false;
     options.Password.RequireUppercase = false;
     options.Password.RequireNonAlphanumeric = false;
-}).AddEntityFrameworkStores<ApplicationDbContext>();
+})
+.AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthentication(options => 
 {
@@ -91,7 +92,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// SERVICES
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IExerciseService, ExerciseService>();
+
+// REPOSITORIES
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IMuscleGroupsRepository, MuscleGroupsRepository>();
 builder.Services.AddScoped<IFileHandlerRepository, FileHandlerLocal>();
