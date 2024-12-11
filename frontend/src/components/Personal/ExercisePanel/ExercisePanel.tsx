@@ -7,8 +7,6 @@ import { getExercises } from '../../../services/ExerciseService';
 import { Exercise } from '../../../models/Exercise';
 import { getFileUrl } from '../../../services/FileService';
 import ExercisePopup from '../ExercisePopup/ExercisePopup';
-import { useAlert } from '../../../context/useAlert';
-import { AlertType } from '../../Global/Alert/Alert';
 
 
 interface Props {
@@ -16,8 +14,6 @@ interface Props {
 }
 
 const ExercisePanel = (props: Props) => {
-  const { alert } = useAlert();
-
   const [isCreatePopupActive, setCreatePopupActive] = useState<boolean>(false);
   const [isExercisePopupActive, setExercisePopupActive] = useState<boolean>(false);
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -52,7 +48,7 @@ const ExercisePanel = (props: Props) => {
       setFilteredExercises(exercises);
     }
     else {
-      setFilteredExercises(exercises.filter(ex => ex.title.startsWith(searchTerm)));
+      setFilteredExercises(exercises.filter(ex => ex.title.toLowerCase().startsWith(searchTerm.toLowerCase())));
     }
   }
 
