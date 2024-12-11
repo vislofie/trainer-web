@@ -57,16 +57,17 @@ export const UserProvider = ({ children } : Props) => {
     const loginUser = async (email: string, password: string) => {
         await loginApi(email, password).then((res) => {
             if (res) {
+                
                 localStorage.setItem("token", res?.data.token);
                 const userObject = {
                     email: email
                 }
 
+                axios.defaults.headers.common["Authorization"] = "Bearer " + res?.data.token!;
                 localStorage.setItem("user", JSON.stringify(userObject));
                 setToken(res?.data.token!);
                 setUser(userObject!);
                 navigate("/personal");
-                axios.defaults.headers.common["Authorization"] = "Bearer " + token;
             }
         })
     }

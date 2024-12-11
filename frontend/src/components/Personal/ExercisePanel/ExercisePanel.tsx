@@ -100,7 +100,7 @@ const ExercisePanel = (props: Props) => {
               Your exercises
             </h1>
             <div className="exercise-cards">
-              {filteredExercises.filter(ex => !ex.isApproved).map((exercise, index) => (
+              {filteredExercises && filteredExercises.filter(ex => !ex.isApproved).map((exercise, index) => (
                 <ExerciseCard 
                 key={index} 
                 name={exercise.title} 
@@ -120,7 +120,7 @@ const ExercisePanel = (props: Props) => {
               Approved exercises
             </h1>
             <div className="exercise-cards">
-              {filteredExercises.filter(ex => ex.isApproved).map((exercise, index) =>(
+              {filteredExercises && filteredExercises.filter(ex => ex.isApproved).map((exercise, index) =>(
                 <ExerciseCard 
                   key={index} 
                   name={exercise.title} 
@@ -137,8 +137,6 @@ const ExercisePanel = (props: Props) => {
       </div>
     </div>
     </>
-    
-    
   )
 }
 
