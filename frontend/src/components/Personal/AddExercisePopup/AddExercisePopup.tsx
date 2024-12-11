@@ -13,6 +13,8 @@ import * as Yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { getFileUrl } from '../../../services/FileService';
+import { useAlert } from '../../../context/useAlert';
+import { AlertType } from '../../Global/Alert/Alert';
 
 interface Props {
     onClose : () => void;
@@ -40,6 +42,8 @@ const AddExercisePopup = ({onClose, loadedExercise}: Props) => {
     resolver: yupResolver(validation),
     mode: 'onChange'
   });
+
+  const { alert } = useAlert();
 
   const [exerciseTitle, setExerciseTitle] = useState<string>('');
   const [exerciseDescription, setExerciseDescription] = useState<string>('');
@@ -207,7 +211,7 @@ const AddExercisePopup = ({onClose, loadedExercise}: Props) => {
 
     if (event.target.files[0].size > 30_000_000)
     {
-      alert('File is bigger than 30 MB! Select a smaller file.');
+      alert(AlertType.Notification, 'Error!', 'File is bigger than 30 MB! Select a smaller file.');
       return;
     }
 
@@ -226,7 +230,7 @@ const AddExercisePopup = ({onClose, loadedExercise}: Props) => {
 
     if (event.target.files[0].size > 30_000_000)
     {
-      alert('File is bigger than 30 MB! Select a smaller file.');
+      alert(AlertType.Notification, 'Error!', 'File is bigger than 30 MB! Select a smaller file.');
       return;
     }
 
@@ -355,13 +359,13 @@ const AddExercisePopup = ({onClose, loadedExercise}: Props) => {
             </div>
 
             <label htmlFor='exercise-media' className='exercise-media-label'>
-              <button onClick={handleVideoUploadClick} type='button'>
+            <button onClick={handleVideoUploadClick} type='button'>
                 <p>Upload video of the exercise</p>
                 <img src={uploadIcon}></img>
               </button>
             </label>
             <input  type="file" 
-                    accept=".mp4, .webm"
+                    accept=".mp4, .webm, .mov"
                     name='exercise-video' 
                     className='exercise-media-upload' 
                     ref={uploadVideoRef}
@@ -380,8 +384,7 @@ const AddExercisePopup = ({onClose, loadedExercise}: Props) => {
                 Add exercise
               </button>
             )
-          }
-            
+            }
           </div>
 
           

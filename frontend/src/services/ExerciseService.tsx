@@ -11,12 +11,7 @@ export const getExercises = async () => {
         const data = await axios.get<Exercise[]>(`${api}/${subDomain}`);
         return data.data;
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.log("error message: ", error.message);
-        }
-        else {
-            console.log("unexpected error");
-        }
+        handleError(error);
     }
 }
 
@@ -25,12 +20,7 @@ export const getExerciseById = async (id: number) => {
         const data = await axios.get<Exercise>(`${api}/${subDomain}/${id}`);
         return data.data;
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.log("error message: ", error.message);
-        }
-        else {
-            console.log("unexpected error");
-        }
+        handleError(error);
     }
 }
 
@@ -39,13 +29,7 @@ export const getExerciseLevels = async () => {
         const data = await axios.get<ExerciseLevel[]>(`${api}/${subDomain}/${levelsSubDomain}`);
         return data.data;
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.log("error message: ", error.message);
-        }
-        else
-        {
-            console.log("unexpected error");
-        }
+        handleError(error);
     }
 }
 
@@ -54,11 +38,7 @@ export const getMuscleGroups = async () => {
         const data = await axios.get<MuscleGroup[]>(`${api}/${muscleGroupsSubDomain}`);
         return data.data;
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.log('error message: ', error.message);
-        } else {
-            console.log("unexpected error");
-        }
+        handleError(error);
     }
 }
 
@@ -79,12 +59,15 @@ export const addExercise = async (exercise: ExerciseUpload) => {
             }
         });
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.log("error message: ", error.message);
-        }
-        else {
-            console.log("unexpected error");
-        }
+        handleError(error);
+    }
+}
+
+export const deleteExercise = async (exerciseId: number) => {
+    try {
+        await axios.delete(`${api}/${subDomain}/${exerciseId}`)
+    } catch (error) {
+        handleError(error);
     }
 }
 
@@ -118,10 +101,14 @@ export const updateExercise = async (exerciseId: number, exercise: ExerciseUploa
             }
         });
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.log("error message: ", error.message);
-        } else {
-            console.log("unexpected error");
-        }
+        handleError(error);
+    }
+}
+
+export const handleError = (error: unknown) => {
+    if (axios.isAxiosError(error)) {
+        console.log("error message: ", error.message);
+    } else {
+        console.log("unexpected error");
     }
 }
