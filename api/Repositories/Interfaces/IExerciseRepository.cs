@@ -11,6 +11,7 @@ public interface IExerciseRepository
     public Task<Exercise?> GetByIdAsync(int id);
     public Task<Exercise?> UpdateByIdAsync(int id, UpdateExerciseRequestDto updateDto);
     public Task<Exercise> CreateAsync(CreateExerciseServiceDto exercise);
+    public Task DeleteAsync(int id);
 
     public Task<List<ExerciseLevel>> GetAllExerciseLevelsAsync();
     public Task<ExerciseLevel?> CreateExerciseLevelAsync(CreateExerciseLevelRequestDto createDto);

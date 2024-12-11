@@ -53,6 +53,17 @@ public class ExerciseController : ControllerBase
         return Ok();
     }
 
+    [HttpDelete("{id:int}")]
+    [Authorize]
+    public async Task<IActionResult> DeleteExerciseById(int id)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
+        await _exerciseService.DeleteExerciseAsync(id);
+        return Ok();
+    }
+
     [HttpPost]
     [Authorize]
     [RequestSizeLimit(100_000_000)]

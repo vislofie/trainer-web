@@ -35,6 +35,33 @@ public class ExerciseService : IExerciseService
         }
     }
 
+    public async Task DeleteExerciseAsync(int id)
+    {
+        try
+        {
+            var exercise = await _exerciseRepository.GetByIdAsync(id);
+
+            if (exercise.IsApproved)
+            {
+                if (!User.IsAdmin())
+                    throw new Exception();
+                
+                await _exerciseRepository.DeleteAsync(id);
+            }   
+            else
+            {
+                if (exercise.CreatedById != User.GetId())
+                    throw new Exception();
+                
+                await _exerciseRepository.DeleteAsync(id);
+            }
+
+        } catch
+        {
+            throw;
+        }
+    }
+
     public async Task<Exercise> GetByIdAsync(int id)
     {
         var exercise = await _exerciseRepository.GetByIdAsync(id);

@@ -10,6 +10,7 @@ public interface IExerciseService
     public Task<Exercise> GetByIdAsync(int id);
     public Task<Exercise> UpdateByIdAsync(int id, UpdateExerciseRequestDto updateDto);
     public Task<Exercise> CreateAsync(CreateExerciseRequestDto createDto);
+    public Task DeleteExerciseAsync(int id);
 
     public Task<List<ExerciseLevel>> GetExerciseLevelsAsync();
     public Task<ExerciseLevel?> CreateExerciseLevelAsync(CreateExerciseLevelRequestDto createDto);

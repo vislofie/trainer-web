@@ -4,7 +4,6 @@ using api.DTOs.ExerciseLevel;
 using api.Mappers;
 using api.Models;
 using api.Repositories.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Repositories.Implementations;
@@ -228,5 +227,18 @@ public class ExerciseRepository : IExerciseRepository
         return exerciseLevel;
     }
 
-    
+    public async Task DeleteAsync(int id)
+    {
+        try
+        {
+            var exercise = await _context.Exercises.FirstOrDefaultAsync(ex => ex.Id == id);
+            if (exercise == null)
+                throw new Exception("Exercise not found!");
+
+            _context.Exercises.Remove(exercise);
+            await _context.SaveChangesAsync();
+        } catch {
+            throw;
+        }
+    }
 }
