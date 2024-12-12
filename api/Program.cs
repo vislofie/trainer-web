@@ -1,5 +1,5 @@
 using System.Text;
-using api.Context;
+using api.Infrastructure;
 using api.Models;
 using api.Repositories.Implementations;
 using api.Repositories.Interfaces;
@@ -7,7 +7,6 @@ using api.Services.Implementations;
 using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

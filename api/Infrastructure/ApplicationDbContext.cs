@@ -1,11 +1,10 @@
-using System.Reflection;
 using api.Infrastructure.Configurations;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Context;
+namespace api.Infrastructure;
 
 public class ApplicationDbContext : IdentityDbContext<AppUser>
 {

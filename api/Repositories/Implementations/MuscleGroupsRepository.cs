@@ -1,4 +1,4 @@
-using api.Context;
+using api.Infrastructure;
 using api.DTOs.MuscleGroups;
 using api.Mappers;
 using api.Models;
