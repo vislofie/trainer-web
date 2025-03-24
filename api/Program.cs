@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using api.Infrastructure;
 using api.Models;
@@ -55,7 +56,11 @@ builder.Services.AddSwaggerGen(option =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    var dbUser = builder.Configuration["POSTGRES_USER"];
+    var dbPassword = builder.Configuration["POSTGRES_PASSWORD"];
+    var dbName = builder.Configuration["POSTGRES_DB"];
+
+    options.UseNpgsql($"User ID={dbUser};Password={dbPassword};Host=db;Port=5432;Database={dbName}");
 });
 builder.Services.AddIdentity<AppUser, IdentityRole>(options => 
 {
@@ -78,7 +83,6 @@ builder.Services.AddAuthentication(options =>
     options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options => 
 {
-    options.SaveToken = true;
     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -87,7 +91,7 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ValidAudience = builder.Configuration["JWT:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
+            Encoding.UTF8.GetBytes(builder.Configuration["SIGNING_KEY"])
         )
     };
 });
@@ -126,5 +130,18 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        await context.Database.MigrateAsync();
+    }
+}
+
 
 app.Run();

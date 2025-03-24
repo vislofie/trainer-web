@@ -18,7 +18,7 @@ const Navbar = ({ showNavigationLabels }: Props) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [avatarMenuVisible, setAvatarMenuVisible] = useState(false);
 
-  const ref = useOutsideClick((e) => setAvatarMenuVisible(false));
+  const ref = useOutsideClick(() => setAvatarMenuVisible(false));
 
   useEffect(() => {
     setLoggedIn(isLoggedIn());
@@ -33,7 +33,7 @@ const Navbar = ({ showNavigationLabels }: Props) => {
     <>
     <div className="header">
       <div className="header-item first-item">
-        <img alt="logo" src={logo} className="logo" onClick={(e) => navigate("/")} style={{cursor: 'pointer'}}/>
+        <img alt="logo" src={logo} className="logo" onClick={() => navigate("/")} style={{cursor: 'pointer'}}/>
       </div>
       <div className="navigation-labels header-item">
         {showNavigationLabels && (
@@ -77,7 +77,7 @@ const Navbar = ({ showNavigationLabels }: Props) => {
      ) 
        :
        (<div className="header-item last-item">
-       <button className="login-btn" onClick={(e) => navigate("/signin")}>
+       <button className="login-btn" onClick={() => navigate("/signin")}>
          Login
        </button>
       </div>)}

@@ -7,9 +7,7 @@ import CalendarPanel from '../../components/Personal/CalendarPanel/CalendarPanel
 import ExercisePanel from '../../components/Personal/ExercisePanel/ExercisePanel'
 import WorkoutPanel from '../../components/Personal/WorkoutPanel/WorkoutPanel'
 
-type Props = {}
-
-const PersonalPage = (props: Props) => {
+const PersonalPage = () => {
     
     const [pageIndex, setPageIndex] = useState(0);
 

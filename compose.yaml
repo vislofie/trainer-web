@@ -1,0 +1,51 @@
+services:
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      - VITE_API_ADDRESS="http://api:5000/api"
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    restart: unless-stopped
+    env_file:
+      - db.env
+      - api.env
+
+  db:
+    image: postgres:latest
+    ports: 
+      - "5432:5432"
+    env_file:
+      - db.env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      
+
+  db_admin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    env_file:
+      - pg.env
+    ports:
+      - 5050:80
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./db_data
+      o: bind

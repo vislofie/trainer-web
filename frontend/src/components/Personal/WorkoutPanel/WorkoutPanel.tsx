@@ -1,8 +1,4 @@
-﻿import React from 'react'
-
-type Props = {}
-
-const WorkoutPanel = (props: Props) => {
+﻿const WorkoutPanel = () => {
   return (
     <div>WorkoutPanel</div>
   )

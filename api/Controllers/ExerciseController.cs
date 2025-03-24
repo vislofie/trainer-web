@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace api.Controllers;
 
 [ApiController]
-[Route("api/exercises")]
+[Route("exercises")]
 public class ExerciseController : ControllerBase
 {
     private readonly IExerciseService _exerciseService;

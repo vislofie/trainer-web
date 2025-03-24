@@ -2,11 +2,9 @@
 import CalendarCard from '../CalendarCard/CalendarCard';
 import './CalendarPanel.css'
 
-type Props = {}
-
 const currentDate = new Date();
 
-const CalendarPanel = (props: Props) => {
+const CalendarPanel = () => {
   return (
     <>
     <div className="calendar-container">

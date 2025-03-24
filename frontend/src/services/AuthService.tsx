@@ -25,7 +25,7 @@ export const loginApi = async (email: string, password: string) => {
 export const registerApi = async (email: string, username: string, password: string) => {
     try {
         console.log(email + ' ' + username + ' ' + password);
-
+        console.log(api)
         const response = await axios.post(`${api}/${subDomain}/register`, {
             email: email,
             username: username,

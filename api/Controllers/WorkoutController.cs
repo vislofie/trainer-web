@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace api.Controllers;
 
 [ApiController]
-[Route("api/workouts")]
+[Route("workouts")]
 public class WorkoutController : ControllerBase
 {
     [HttpGet]

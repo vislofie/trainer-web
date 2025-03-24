@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace api.Controllers;
 
 [ApiController]
-[Route("api/muscle-groups")]
+[Route("muscle-groups")]
 public class MuscleGroupController : ControllerBase
 {
     private IMuscleGroupsRepository _muscleGroupsRepository;

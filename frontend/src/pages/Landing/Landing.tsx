@@ -1,20 +1,16 @@
 import './Landing.css'
 import Navbar from '../../components/Navbar/Navbar'
 import promo2 from '../../assets/imgs/promo-2.jpg'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/useAuth';
 
-function Landing() {
-  const { isLoggedIn } = useAuth();
-  
+function Landing() {  
   useEffect(() => {
     document.title = "Trainer Web";
   }, []);
 
   return (
     <>
-      <video className='videoTag' src="src/assets/videos/landing.mp4" autoPlay loop playsInline/>
       <Navbar showNavigationLabels={true}/>
       
       <div className="container">

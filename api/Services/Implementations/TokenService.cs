@@ -18,7 +18,7 @@ public class TokenService : ITokenService
     {
         _config = config;
         _userManager = userManager;
-        _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigningKey"]));
+        _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["SIGNING_KEY"]));
     }
 
     public async Task<string> CreateTokenAsync(AppUser user)

@@ -2,3 +2,9 @@
 */obj/*
 .DS_Store
 *Upload/*
+
+db_data/
+
+db.env
+pg.env
+api.env

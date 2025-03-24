@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace api.Controllers;
 
 [ApiController]
-[Route("api/file")]
+[Route("file")]
 public class FileController : ControllerBase
 {
     private readonly IFileHandlerRepository _fileHandlerRepository;

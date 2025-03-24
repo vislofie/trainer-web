@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers;
 
-[Route("api/auth")]
+[Route("auth")]
 [ApiController]
 public class AuthorizationController : ControllerBase
 {

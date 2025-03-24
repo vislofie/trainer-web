@@ -8,12 +8,7 @@ import { Exercise } from '../../../models/Exercise';
 import { getFileUrl } from '../../../services/FileService';
 import ExercisePopup from '../ExercisePopup/ExercisePopup';
 
-
-interface Props {
-
-}
-
-const ExercisePanel = (props: Props) => {
+const ExercisePanel = () => {
   const [isCreatePopupActive, setCreatePopupActive] = useState<boolean>(false);
   const [isExercisePopupActive, setExercisePopupActive] = useState<boolean>(false);
   const [exercises, setExercises] = useState<Exercise[]>([]);

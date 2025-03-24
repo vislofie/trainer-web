@@ -9,10 +9,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../../../context/useAuth'
 
-interface Props {
-
-}
-
 type RegisterFormInputs = {
   email: string;
   username: string;
@@ -27,7 +23,7 @@ const validation = Yup.object().shape({
   confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords must be the same!"),
 })
 
-const RegisterPanel = (props: Props) => {
+const RegisterPanel = () => {
   const { registerUser } = useAuth();
   const { register, handleSubmit, formState: {errors}} = useForm<RegisterFormInputs>({resolver: yupResolver(validation)})
   const handleRegister = ( form: RegisterFormInputs ) => {

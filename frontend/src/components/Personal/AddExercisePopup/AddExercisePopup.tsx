@@ -389,7 +389,7 @@ const AddExercisePopup = ({onClose, loadedExercise}: Props) => {
 
           
       </form>
-      <div className="popup-click-container" style={{cursor: 'pointer'}} onClick={(e) => { if (!uploading) onClose()}}/>
+      <div className="popup-click-container" style={{cursor: 'pointer'}} onClick={() => { if (!uploading) onClose()}}/>
     </div>
   )
 }

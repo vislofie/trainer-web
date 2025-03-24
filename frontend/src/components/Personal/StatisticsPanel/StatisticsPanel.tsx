@@ -1,8 +1,4 @@
-﻿import React from 'react'
-
-type Props = {}
-
-const StatisticsPanel = (props: Props) => {
+﻿const StatisticsPanel = () => {
   return (
     <div>StatisticsPanel</div>
   )

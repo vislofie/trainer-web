@@ -1,14 +1,12 @@
 ﻿import RegisterPanel from '../../components/AuthPanels/RegisterPanel/RegisterPanel'
 import Navbar from '../../components/Navbar/Navbar'
 import "./RegisterPage.css"
- 
-type Props = {}
 
-const RegisterPage = (props: Props) => {
+const RegisterPage = () => {
   return (
     <>
     <div className="content-box">
-        <Navbar/>
+        <Navbar showNavigationLabels={false}/>
         <div className="login-body">
             <RegisterPanel/>
         </div>

@@ -1,11 +1,8 @@
 ﻿import LoginPanel from '../../components/AuthPanels/LoginPanel/LoginPanel'
 import Navbar from '../../components/Navbar/Navbar'
 import "./LoginPage.css"
- 
-type Props = {}
 
-
-const LoginPage = (props: Props) => {
+const LoginPage = () => {
   return (
     <>
     <div className="content-box">
