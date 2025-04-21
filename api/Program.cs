@@ -59,8 +59,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     var dbUser = builder.Configuration["POSTGRES_USER"];
     var dbPassword = builder.Configuration["POSTGRES_PASSWORD"];
     var dbName = builder.Configuration["POSTGRES_DB"];
+    var dbHost = builder.Configuration["POSTGRES_HOST"];
 
-    options.UseNpgsql($"User ID={dbUser};Password={dbPassword};Host=db;Port=5432;Database={dbName}");
+    options.UseNpgsql($"User ID={dbUser};Password={dbPassword};Host={dbHost};Port=5432;Database={dbName}");
 });
 builder.Services.AddIdentity<AppUser, IdentityRole>(options => 
 {
@@ -118,7 +119,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseCors(cor => cor
     .AllowAnyMethod()
