@@ -14,8 +14,7 @@ WORKDIR "/src/."
 RUN dotnet build "api.csproj" -o /app/build
 
 FROM build AS publish
-ARG configuration=Development
-RUN dotnet publish "api.csproj" -c $configuration -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "api.csproj" -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
