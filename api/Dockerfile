@@ -6,13 +6,12 @@ ENV ASPNETCORE_URLS=http://+:5000
 
 USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG configuration=Development
 WORKDIR /src
 COPY ["api.csproj", "./"]
 RUN dotnet restore "api.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "api.csproj" -c $configuration -o /app/build
+RUN dotnet build "api.csproj" -o /app/build
 
 FROM build AS publish
 ARG configuration=Development
