@@ -21,6 +21,8 @@ services:
     env_file:
       - db.env
       - api.env
+    volumes:
+      - uploads:/app/Upload
 
   db:
     image: postgres:latest
@@ -48,4 +50,10 @@ volumes:
     driver_opts:
       type: none
       device: ./db_data
+      o: bind
+  uploads:
+    driver: local
+    driver_opts:
+      type: none
+      dvice: ./uploads
       o: bind
