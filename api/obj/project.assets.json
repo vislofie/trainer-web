@@ -4690,24 +4690,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\vislo\\.nuget\\packages\\": {}
+    "/Users/vislofie/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\trainer-web\\api\\api.csproj",
+      "projectUniqueName": "/Users/vislofie/Projects/CSharp Projects/trainer-web/api/api.csproj",
       "projectName": "api",
-      "projectPath": "E:\\trainer-web\\api\\api.csproj",
-      "packagesPath": "C:\\Users\\vislo\\.nuget\\packages\\",
-      "outputPath": "E:\\trainer-web\\api\\obj\\",
+      "projectPath": "/Users/vislofie/Projects/CSharp Projects/trainer-web/api/api.csproj",
+      "packagesPath": "/Users/vislofie/.nuget/packages/",
+      "outputPath": "/Users/vislofie/Projects/CSharp Projects/trainer-web/api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\vislo\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/vislofie/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4726,7 +4727,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net8.0": {
@@ -4795,19 +4796,15 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.14, 8.0.14]"
+            "version": "[8.0.12, 8.0.12]"
           },
           {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[8.0.14, 8.0.14]"
+            "name": "Microsoft.NETCore.App.Host.osx-arm64",
+            "version": "[8.0.12, 8.0.12]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.14, 8.0.14]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[8.0.14, 8.0.14]"
+            "version": "[8.0.12, 8.0.12]"
           }
         ],
         "frameworkReferences": {
@@ -4818,7 +4815,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
