@@ -4,6 +4,7 @@ WORKDIR /app
 COPY . /app
 
 RUN rm .env
+RUN echo VITE_API_ADDRESS="/api" >> .env
 RUN npm install
 RUN npm run build
 
