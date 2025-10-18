@@ -113,7 +113,7 @@ function Landing() {
           </a>
         </div>
 
-        <h2>Sasha Karpov (C) 2024. Copyright</h2>
+        <h2>Valera Vobla (C) 2024. Copyright</h2>
 
         <div className="right-links">
           <a href="">
