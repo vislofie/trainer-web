@@ -4,7 +4,7 @@ Web application for tracking and creating workouts and exercises.
 
 
 ## Configuration
-You wiil need to create 3 separate .env files in the cloned directory
+You will need to create 3 separate .env files in the cloned directory
 
 #### db.env
 - POSTGRES_USER=your_postgres_user
