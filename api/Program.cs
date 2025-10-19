@@ -140,6 +140,16 @@ using (var scope = app.Services.CreateScope())
     {
         await context.Database.MigrateAsync();
     }
+
+    if (!context.ExerciseLevels.Any())
+    {
+        context.ExerciseLevels.AddRange(
+            new ExerciseLevel { Name = "Beginner" },
+            new ExerciseLevel { Name = "Intermediate" },
+            new ExerciseLevel { Name = "Advanced" }
+        );
+        await context.SaveChangesAsync();
+    }
 }
 
 
