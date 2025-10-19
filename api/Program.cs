@@ -141,6 +141,24 @@ using (var scope = app.Services.CreateScope())
         await context.Database.MigrateAsync();
     }
 
+    if (!context.MuscleGroup.Any())
+    {
+        context.MuscleGroup.AddRange(
+            new MuscleGroup { Name = "Neck" },
+            new MuscleGroup { Name = "Shoulders" },
+            new MuscleGroup { Name = "Ches" },
+            new MuscleGroup { Name = "Arms" },
+            new MuscleGroup { Name = "Forearms" },
+            new MuscleGroup { Name = "Upper back" },
+            new MuscleGroup { Name = "Lower back" },
+            new MuscleGroup { Name = "Abs" },
+            new MuscleGroup { Name = "Glutes" },
+            new MuscleGroup { Name = "Frontlegs" },
+            new MuscleGroup { Name = "Backlegs" },
+            new MuscleGroup { Name = "Calves" }
+        );
+    }
+
     if (!context.ExerciseLevels.Any())
     {
         context.ExerciseLevels.AddRange(
@@ -148,8 +166,9 @@ using (var scope = app.Services.CreateScope())
             new ExerciseLevel { Name = "Intermediate" },
             new ExerciseLevel { Name = "Advanced" }
         );
-        await context.SaveChangesAsync();
     }
+    
+    await context.SaveChangesAsync();
 }
 
 
