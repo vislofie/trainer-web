@@ -1,7 +1,8 @@
 **/bin/
 **/obj/
 .DS_Store
-*Upload/*
+.idea
+/api/Upload
 
 db_data/
 

@@ -4,6 +4,7 @@ import axios from "axios";
 import { loginApi, registerApi } from "../services/AuthService";
 import { UserProfile } from "../models/User";
 import React from "react";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 
 type UserContextType = {
     user: UserProfile | null;
@@ -27,12 +28,21 @@ export const UserProvider = ({ children } : Props) => {
     useEffect(() => {
         const user = localStorage.getItem("user");
         const token = localStorage.getItem("token");
+        
         if (user && token) {
-            setUser(JSON.parse(user));
-            setToken(token);
-            axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+            
+            const decodedToken = jwtDecode<JwtPayload>(token);
+            const currentTime = Date.now() / 1000;
+            if (decodedToken.exp && decodedToken.exp < currentTime) {
+                logout()
+            }
+            else {
+                setUser(JSON.parse(user));
+                setToken(token);
+                axios.defaults.headers.common["Authorization"] = "Bearer " + token;    
+            }
         }
-
+        
         setAuthorized(true);
     }, []);
 
