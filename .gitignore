@@ -5,6 +5,7 @@
 /api/Upload
 
 db_data/
+uploads/
 
 db.env
 pg.env
