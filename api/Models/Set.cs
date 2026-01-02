@@ -5,7 +5,7 @@ public class Set
     public int Id { get; set; }
 
     // foreign key for exercise
-    public int ExerciseId { get; set; }
+    public int ExerciseId { get; set; } 
     // Navigation property
     public Exercise Exercise { get; set; }
 

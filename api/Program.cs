@@ -100,11 +100,13 @@ builder.Services.AddAuthentication(options =>
 // SERVICES
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
+builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 
 // REPOSITORIES
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IMuscleGroupsRepository, MuscleGroupsRepository>();
 builder.Services.AddScoped<IFileHandlerRepository, FileHandlerLocal>();
+builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 

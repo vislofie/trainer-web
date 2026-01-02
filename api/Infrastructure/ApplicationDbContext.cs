@@ -18,6 +18,8 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<ExerciseLevel> ExerciseLevels { get; set; }
     public DbSet<MuscleGroup> MuscleGroup { get; set; }
     public DbSet<Workout> Workouts { get; set; }
+    public DbSet<Set> Set { get; set; }
+    public DbSet<SetItem> SetItems { get; set; }
     public DbSet<Models.FileInfo> FileInfos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)

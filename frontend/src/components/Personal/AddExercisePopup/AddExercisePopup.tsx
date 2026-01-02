@@ -126,7 +126,7 @@ const AddExercisePopup = ({onClose, loadedExercise}: Props) => {
     setTimeout(() => {
       setFilteredMuscleGroups(
         muscleGroups
-        .filter(mg => mg.name.toLowerCase().startsWith(value.toLowerCase()))
+        .filter(mg => mg.name.toLowerCase().includes(value.toLowerCase()))
       );
   
       setKey(prevKey => prevKey + 1);

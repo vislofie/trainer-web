@@ -42,7 +42,7 @@ const ExercisePanel = () => {
       setFilteredExercises(exercises);
     }
     else {
-      setFilteredExercises(exercises.filter(ex => ex.title.toLowerCase().startsWith(searchTerm.toLowerCase())));
+      setFilteredExercises(exercises.filter(ex => ex.title.toLowerCase().includes(searchTerm.toLowerCase())));
     }
   }
 

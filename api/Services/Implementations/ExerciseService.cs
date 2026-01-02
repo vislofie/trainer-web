@@ -44,7 +44,7 @@ public class ExerciseService : IExerciseService
             if (exercise.IsApproved)
             {
                 if (!User.IsAdmin())
-                    throw new Exception();
+                    throw new Exception("You have no permission to delete approved exercises!");
                 
                 await _exerciseRepository.DeleteAsync(id);
             }   
