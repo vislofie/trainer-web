@@ -2,11 +2,15 @@
 import { useEffect, useState } from "react";
 import { Workout } from "../../../models/Workout";
 import { getWorkouts } from "../../../services/WorkoutService.tsx";
+import ExerciseCard from "../ExerciseCard/ExerciseCard.tsx";
+import { getFileUrl } from "../../../services/FileService.tsx";
 
 const WorkoutPanel = () => {
+  const [isCreatePopupActive, setCreatePopupActive] = useState<boolean>(false);
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [filteredWorkouts, setFilteredWorkouts] = useState<Workout[]>([])
   const [filterTypes, setFilterTypes] = useState<number>(6);
+  const [refresh, setRefresh] = useState(0);
   
   const handleSearchWorkout = (searchTerm: string) => {
     if (searchTerm === '') {
@@ -21,6 +25,11 @@ const WorkoutPanel = () => {
     setFilterTypes(type);
   }
   
+  const handlePopupVisibility = (visible: boolean) => {
+    setCreatePopupActive(visible);
+    setRefresh(val => val + 1);
+  }
+  
   useEffect(() => {
     const getWorkoutsInit = async() => {
       const workouts = await getWorkouts();
@@ -29,7 +38,7 @@ const WorkoutPanel = () => {
     }
     
     getWorkoutsInit();
-  }, [])
+  }, [refresh])
   
   return (
     <BigSearchablePanel 
@@ -54,7 +63,16 @@ const WorkoutPanel = () => {
             Your workouts
           </h1>
           <div className="workout-cards">
-            
+            {filteredWorkouts && filteredWorkouts.filter(wrk => !wrk.isApproved).map((workout, index) => (
+                <ExerciseCard
+                  key={index}
+                  name={workout.workoutName}
+                  muscleGroups={[{id: 0, name: "Doesn't matter"}]}
+                  lastPR={'-'}
+                  imageUrl={getFileUrl(0)}
+                  onExerciseClick={() => console.log("hey!")}
+                />
+            ))}
           </div>
           </>      
         )}

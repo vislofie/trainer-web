@@ -26,6 +26,16 @@ public class WorkoutController : ControllerBase
         return Ok((await _workoutService.GetAllAsync()).Select(w => w.ToWorkoutDto()));
     }
 
+    [HttpGet("{id:int}")]
+    [Authorize]
+    public async Task<IActionResult> GetWorkoutById(int id)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
+        return Ok((await _workoutService.GetByIdAsync(id)).ToWorkoutDto());
+    }
+
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> AddWorkout([FromBody] CreateWorkoutRequestDto createDto)
@@ -35,5 +45,16 @@ public class WorkoutController : ControllerBase
         
         var workoutModel = await _workoutService.CreateAsync(createDto);
         return Ok(workoutModel.ToWorkoutDto());
+    }
+
+    [HttpDelete("{id:int}")]
+    [Authorize]
+    public async Task<IActionResult> DeleteWorkoutById(int id)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
+        await _workoutService.DeleteWorkoutAsync(id);
+        return Ok();
     }
 }

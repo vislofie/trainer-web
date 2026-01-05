@@ -1,5 +1,3 @@
-import {Exercise} from "./Exercise";
-
 export type WorkoutSetItem = {
     id: number;
     weight: number;
@@ -9,13 +7,16 @@ export type WorkoutSetItem = {
 
 export type WorkoutSet = {
     id: number;
+    exerciseId: number;
     
-    exercise: Exercise;
     items: WorkoutSetItem[];
 }
 
 export type Workout = {
     id: number;
     workoutName: string;
+    createdById: string;
+    isApproved: boolean;
+    
     sets: WorkoutSet[];
 }

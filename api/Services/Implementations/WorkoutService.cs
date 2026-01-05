@@ -34,9 +34,26 @@ public class WorkoutService : IWorkoutService
         }
     }
 
-    public Task<Workout> GetByIdAsync(int id)
+    public async Task<Workout> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var workout = await _workoutRepository.GetByIdAsync(id);
+        
+        if (workout == null)
+            throw new Exception("Exercise not found!");
+        
+        if (User.IsAdmin())
+        {
+            return workout;
+        }
+        else
+        {
+            if (workout.CreatedById == User.GetId() || workout.IsApproved)
+            {
+                return workout;
+            }
+
+            throw new Exception("Exercise not found!");
+        }
     }
 
     public Task<Workout> UpdateByIdAsync(int id, UpdateWorkoutRequestDto updatedto)
