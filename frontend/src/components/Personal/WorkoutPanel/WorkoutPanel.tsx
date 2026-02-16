@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 import { Workout } from "../../../models/Workout";
 import { getWorkouts } from "../../../services/WorkoutService.tsx";
-import ExerciseCard from "../ExerciseCard/ExerciseCard.tsx";
-import { getFileUrl } from "../../../services/FileService.tsx";
+import WorkoutCard from "../WorkoutCard/WorkoutCard.tsx";
 
 const WorkoutPanel = () => {
   const [isCreatePopupActive, setCreatePopupActive] = useState<boolean>(false);
@@ -64,13 +63,11 @@ const WorkoutPanel = () => {
           </h1>
           <div className="workout-cards">
             {filteredWorkouts && filteredWorkouts.filter(wrk => !wrk.isApproved).map((workout, index) => (
-                <ExerciseCard
-                  key={index}
-                  name={workout.workoutName}
-                  muscleGroups={[{id: 0, name: "Doesn't matter"}]}
-                  lastPR={'-'}
-                  imageUrl={getFileUrl(0)}
-                  onExerciseClick={() => console.log("hey!")}
+                <WorkoutCard
+                    name={workout.workoutName}
+                    level={"beginner"}
+                    length="1 hr 30 mins"
+                    isYours={true}
                 />
             ))}
           </div>
