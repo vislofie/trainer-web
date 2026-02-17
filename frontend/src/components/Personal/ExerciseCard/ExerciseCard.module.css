@@ -23,11 +23,11 @@
 .title-row img {
     width: 32px;
     height: 32px;
-    margin-top: 1em;
+    margin-top: 0.72em;
 }
 
-.title-row h2 {
-    margin-top: 3%;
+.title-row h4 {
+    margin-top: 5%;
 }
 
 .subtitle-headers {

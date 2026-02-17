@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Workout } from "../../../models/Workout";
 import { getWorkouts } from "../../../services/WorkoutService.tsx";
+import { getFileUrl } from "../../../services/FileService.tsx";
 import WorkoutCard from "../WorkoutCard/WorkoutCard.tsx";
 
 const WorkoutPanel = () => {
@@ -64,10 +65,10 @@ const WorkoutPanel = () => {
           <div className="workout-cards">
             {filteredWorkouts && filteredWorkouts.filter(wrk => !wrk.isApproved).map((workout, index) => (
                 <WorkoutCard
-                    name={workout.workoutName}
-                    level={"beginner"}
-                    length="1 hr 30 mins"
-                    isYours={true}
+                  key={index}
+                  name={workout.workoutName}
+                  avgLength={"1hr 30 min"}
+                  onWorkoutClick={() => console.log("hey!")}
                 />
             ))}
           </div>
@@ -80,7 +81,14 @@ const WorkoutPanel = () => {
             Approved workouts
           </h1>
           <div className="workout-cards">
-            
+            {filteredWorkouts.filter(wrk => wrk.isApproved).map((workout, index) => (
+                <WorkoutCard
+                    key={index}
+                    name={workout.workoutName}
+                    avgLength={"1hr 30 min"}
+                    onWorkoutClick={() => console.log("hey!")}
+                />
+            ))}
           </div>
           </>        
         )}
